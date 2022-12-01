@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.items.ItemFragment">
+
+    <TextView
+        android:id="@+id/textViewTitle_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:textSize="35sp"
+        android:text="Supermarket"/>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardElevation="5dp"
+        android:layout_margin="15dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/texviewTitleTotalCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="5dp"
+            android:textStyle="italic"
+            android:textSize="10sp"
+            android:text="Total Market"/>
+
+        <TextView
+            android:id="@+id/textviewTotalValueCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/texviewTitleTotalCardView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="10dp"
+            android:textStyle="bold"
+            android:textColor="#2DC83C"
+            android:textSize="20dp"
+            android:text="R$ 0,00"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <View
+        android:id="@+id/view_item_name_activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#F1F1F1"/>
+
+    <TextView
+        android:id="@+id/textViewNameTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitle_list"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Name"
+        />
+
+    <TextView
+        android:id="@+id/textViewQuantityTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewNameTop"
+        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
+        android:layout_marginHorizontal="210dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Quantity"
+        />
+
+    <TextView
+        android:id="@+id/textViewPriceTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toEndOf="@+id/textViewQuantityTop"
+        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
+        android:layout_marginHorizontal="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:text="Price"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_item_name_activity_main"
+        tools:listitem="@layout/item_list" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/white"
+        app:backgroundTint="@color/white"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
