@@ -3,6 +3,7 @@ package com.example.listinha.ui.items
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
@@ -10,35 +11,45 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.databinding.ItemListBinding
 import com.example.listinha.extensions.isItalic
+import com.example.listinha.extensions.setCheckedSilent
 import com.example.listinha.extensions.showStrikeThrough
 import com.example.listinha.models.Item
 
 class ItemAdapter(
-    val onComplete: (Boolean, Item) -> Unit,
-    val onSearchBy: (CharSequence?) -> Unit
-): ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()), Filterable {
+    val onComplete: (Boolean, Item) -> Unit
+) : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()), Filterable {
 
-    private val customFilter = object : Filter(){
-        override fun performFiltering(constraint: CharSequence?): FilterResults {
-            onSearchBy(constraint)
-            return FilterResults()
+    private val customFilter = object : Filter() {
+        override fun performFiltering(query: CharSequence?): FilterResults {
+            val filteredList = mutableListOf<Item>()
+            if (query == null || query.toString().isEmpty()) {
+                filteredList.addAll(fullList)
+            } else {
+                filteredList.addAll(filterListBy(query))
+            }
+
+            return FilterResults().apply {
+                values = filteredList
+            }
         }
 
         @Suppress("UNCHECKED_CAST")
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-            onSearchBy(constraint)
+            results?.values?.let { submitList(it as List<Item>) }
         }
 
     }
 
-    private val fullList = mutableListOf<Item>()
+    private var fullList = mutableListOf<Item>()
 
-    fun updateList(listItem: List<Item>){
-        fullList.clear()
-        fullList.addAll(listItem)
+    fun updateList(listItem: List<Item>) {
+        fullList = listItem.toMutableList()
         submitList(fullList)
     }
 
+    private fun filterListBy(query: CharSequence) = fullList.filter {
+        it.name.lowercase().trim().contains(query.toString().lowercase().trim())
+    }
 
     override fun getFilter(): Filter {
         return customFilter
@@ -56,10 +67,13 @@ class ItemAdapter(
 
     inner class ItemViewHolder(
         private val binding: ItemListBinding
-    ): RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Item){
+        fun bind(item: Item) {
             binding.apply {
+                val checkBoxListener = CompoundButton.OnCheckedChangeListener { view, isChecked ->
+                    view?.let { onComplete(isChecked, item) }
+                }
                 val itemQuantity = item.quantity.toDoubleOrNull()
                 val priceItem = item.price.toDoubleOrNull()
                 if (priceItem != null && itemQuantity != null) {
@@ -70,16 +84,14 @@ class ItemAdapter(
                 textViewName.showStrikeThrough(item.completed)
                 textViewName.isItalic(item.completed)
                 textViewQuantity.text = item.quantity
-                checkBox.isChecked = item.completed
-                checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
-                    onComplete(isChecked,item)
-                }
+                checkBox.setCheckedSilent(item.completed, checkBoxListener)
+                checkBox.setOnCheckedChangeListener(checkBoxListener)
                 Log.i("Adapter", "bind: $item")
             }
         }
     }
 
-    class DiffCallback: DiffUtil.ItemCallback<Item>(){
+    class DiffCallback : DiffUtil.ItemCallback<Item>() {
         override fun areItemsTheSame(oldItem: Item, newItem: Item) =
             oldItem.id == newItem.id
 
