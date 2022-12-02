@@ -34,4 +34,8 @@ class ItemViewModel @Inject constructor(
         }
     }
 
+    fun onItemSwiped(item: Item) = viewModelScope.launch {
+        itemRepository.delete(item)
+    }
+
 }

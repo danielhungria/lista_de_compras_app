@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.viewmodel.ItemViewModel
@@ -26,11 +28,31 @@ class ItemFragment : Fragment() {
         viewModel.onComplete(completed, item)
     })
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupFab()
+
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = itemAdapter.currentList[viewHolder.bindingAdapterPosition]
+                viewModel.onItemSwiped(item)
+            }
+
+        }).attachToRecyclerView(binding.recyclerViewList)
+
+
         viewModel.items.observe(viewLifecycleOwner) {
             itemAdapter.updateList(it)
         }
