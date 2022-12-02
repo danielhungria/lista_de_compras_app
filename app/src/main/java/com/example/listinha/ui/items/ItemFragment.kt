@@ -9,31 +9,51 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ItemFragment: Fragment() {
+class ItemFragment : Fragment() {
 
     private val viewModel: ItemViewModel by viewModels()
 
     private lateinit var binding: FragmentListBinding
 
-    private val itemAdapter = ItemAdapter(onComplete = {completed,item ->
+    private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
-    }, onSearchBy = {
-        viewModel.onSearchBy(it)
     })
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupFab()
-        viewModel.items.observe(viewLifecycleOwner){
+
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ){
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = itemAdapter.currentList[viewHolder.bindingAdapterPosition]
+                viewModel.onItemSwiped(item)
+            }
+
+        }).attachToRecyclerView(binding.recyclerViewList)
+
+
+        viewModel.items.observe(viewLifecycleOwner) {
             itemAdapter.updateList(it)
         }
         viewModel.fetchItemList()
@@ -91,7 +111,7 @@ class ItemFragment: Fragment() {
         }
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         binding.apply {
             recyclerViewList.apply {
                 adapter = itemAdapter
@@ -99,7 +119,5 @@ class ItemFragment: Fragment() {
             }
         }
     }
-
-
 
 }
