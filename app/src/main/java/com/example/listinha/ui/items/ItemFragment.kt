@@ -16,16 +16,14 @@ import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ItemFragment: Fragment() {
+class ItemFragment : Fragment() {
 
     private val viewModel: ItemViewModel by viewModels()
 
     private lateinit var binding: FragmentListBinding
 
-    private val itemAdapter = ItemAdapter(onComplete = {completed,item ->
+    private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
-    }, onSearchBy = {
-        viewModel.onSearchBy(it)
     })
 
 
@@ -33,7 +31,7 @@ class ItemFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupFab()
-        viewModel.items.observe(viewLifecycleOwner){
+        viewModel.items.observe(viewLifecycleOwner) {
             itemAdapter.updateList(it)
         }
         viewModel.fetchItemList()
@@ -91,7 +89,7 @@ class ItemFragment: Fragment() {
         }
     }
 
-    private fun setupRecyclerView(){
+    private fun setupRecyclerView() {
         binding.apply {
             recyclerViewList.apply {
                 adapter = itemAdapter
@@ -99,7 +97,5 @@ class ItemFragment: Fragment() {
             }
         }
     }
-
-
 
 }
