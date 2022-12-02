@@ -50,7 +50,7 @@ dependencies {
     def lifecycle_version = "2.5.1"
     def room_version = "2.4.1"
     def fragment_version = "1.5.4"
-    def navigationVersion = "2.3.1"
+    def navigationVersion = "2.5.3"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
