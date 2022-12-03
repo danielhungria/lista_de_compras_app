@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.databinding.FragmentListBinding
+import com.example.listinha.models.Item
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ItemFragment : Fragment() {
+
+    private val listItems = mutableListOf<Item>()
 
     private val viewModel: ItemViewModel by viewModels()
 
@@ -27,47 +30,6 @@ class ItemFragment : Fragment() {
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
     })
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupFab()
-
-
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ){
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return false
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = itemAdapter.currentList[viewHolder.bindingAdapterPosition]
-                viewModel.onItemSwiped(item)
-            }
-
-        }).attachToRecyclerView(binding.recyclerViewList)
-
-
-        viewModel.items.observe(viewLifecycleOwner) {
-            itemAdapter.updateList(it)
-        }
-        viewModel.fetchItemList()
-        setupMenu()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentListBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     private fun setupMenu() {
         val menuHost: MenuHost = requireActivity()
@@ -120,4 +82,58 @@ class ItemFragment : Fragment() {
         }
     }
 
+    fun sumItems(item: List<Item>) {
+        listItems.clear()
+        item.forEach {
+            val price = it.price.toDoubleOrNull()
+            val quantity = it.quantity.toDoubleOrNull()
+            if (price != null && quantity != null) {
+                listItems.add(it)
+            }
+        }
+        val sumAllItems = listItems.sumOf {
+            it.price.toDouble() * it.quantity.toDouble()
+        }
+        val sumAllItemsFormated = String.format("%.2f", sumAllItems)
+        binding.textviewTotalValueCardView.text = "R$ $sumAllItemsFormated"
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        setupFab()
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return false
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = itemAdapter.currentList[viewHolder.bindingAdapterPosition]
+                viewModel.onItemSwiped(item)
+            }
+
+        }).attachToRecyclerView(binding.recyclerViewList)
+
+        viewModel.items.observe(viewLifecycleOwner) {
+            sumItems(it)
+            itemAdapter.updateList(it)
+        }
+        viewModel.fetchItemList()
+        setupMenu()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 }

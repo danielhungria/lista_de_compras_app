@@ -6,23 +6,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.items.ItemFragment">
 
-    <TextView
-        android:id="@+id/textViewTitle_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/dividerFragmentList"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_margin="20dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:textSize="35sp"
-        android:text="Supermarket"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewFragmentList"
+        android:layout_marginTop="10dp"
+        app:dividerColor="#F1F1F1"
+        />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardViewFragmentList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:cardElevation="5dp"
         android:layout_margin="15dp"
         >
@@ -40,7 +41,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="5dp"
             android:textStyle="italic"
-            android:textSize="10sp"
+            android:textSize="15sp"
             android:text="Total Market"/>
 
         <TextView
@@ -53,61 +54,12 @@
             android:layout_marginHorizontal="10dp"
             android:textStyle="bold"
             android:textColor="#2DC83C"
-            android:textSize="20dp"
+            android:textSize="30dp"
             android:text="R$ 0,00"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
-    <View
-        android:id="@+id/view_item_name_activity_main"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="#F1F1F1"/>
-
-    <TextView
-        android:id="@+id/textViewNameTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewTitle_list"
-        android:layout_marginHorizontal="40dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Name"
-        />
-
-    <TextView
-        android:id="@+id/textViewQuantityTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/textViewNameTop"
-        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
-        android:layout_marginHorizontal="210dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Quantity"
-        />
-
-    <TextView
-        android:id="@+id/textViewPriceTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/textViewQuantityTop"
-        app:layout_constraintTop_toTopOf="@+id/textViewNameTop"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewNameTop"
-        android:layout_marginHorizontal="20dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:text="Price"
-        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_list"
@@ -115,7 +67,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_item_name_activity_main"
+        app:layout_constraintTop_toBottomOf="@+id/dividerFragmentList"
         tools:listitem="@layout/item_list" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.TextView
+import androidx.compose.ui.graphics.Color
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +16,7 @@ import com.example.listinha.extensions.isItalic
 import com.example.listinha.extensions.setCheckedSilent
 import com.example.listinha.extensions.showStrikeThrough
 import com.example.listinha.models.Item
+import com.example.listinha.models.Prices
 
 class ItemAdapter(
     val onComplete: (Boolean, Item) -> Unit
@@ -41,6 +44,8 @@ class ItemAdapter(
     }
 
     private var fullList = mutableListOf<Item>()
+
+    var listPrices = mutableListOf<Prices>()
 
     fun updateList(listItem: List<Item>) {
         fullList = listItem.toMutableList()
@@ -78,7 +83,10 @@ class ItemAdapter(
                 val priceItem = item.price.toDoubleOrNull()
                 if (priceItem != null && itemQuantity != null) {
                     val finalPrice = priceItem * itemQuantity
-                    textViewPrice.text = "R$ $finalPrice"
+                    val finalPriceFormat = String.format("%.2f", finalPrice)
+                    textViewPrice.text = "R$ ${finalPriceFormat}"
+                    val FinalPrice = Prices(finalPrice)
+                    listPrices.add(FinalPrice)
                 }
                 textViewName.text = item.name
                 textViewName.showStrikeThrough(item.completed)
@@ -86,7 +94,6 @@ class ItemAdapter(
                 textViewQuantity.text = item.quantity
                 checkBox.setCheckedSilent(item.completed, checkBoxListener)
                 checkBox.setOnCheckedChangeListener(checkBoxListener)
-                Log.i("Adapter", "bind: $item")
             }
         }
     }

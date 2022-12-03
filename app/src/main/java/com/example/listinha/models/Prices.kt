@@ -1,4 +1,7 @@
 package com.example.listinha.models
 
-class Prices {
-}
+data class Prices(
+
+    val price: Double
+
+)
