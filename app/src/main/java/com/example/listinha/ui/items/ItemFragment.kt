@@ -103,7 +103,7 @@ class ItemFragment : Fragment() {
         setupRecyclerView()
         setupFab()
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-            0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            0, ItemTouchHelper.LEFT
         ) {
             override fun onMove(
                 recyclerView: RecyclerView,
