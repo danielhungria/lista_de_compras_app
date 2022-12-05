@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+  >
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
 
     <TextView
         android:id="@+id/textViewTitle_edit"
@@ -38,6 +47,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewDescription_edit"
         android:layout_margin="20dp"
+        app:startIconDrawable="@drawable/ic_baseline_short_text_24"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextName_edit"
@@ -55,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputEditTextName_edit"
         android:layout_margin="20dp"
-
+        app:startIconDrawable="@drawable/ic_baseline_shopping_cart_24"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextQuantity_edit"
@@ -75,6 +85,9 @@
         app:layout_constraintTop_toBottomOf="@id/inputEditTextQuantity_edit"
         android:layout_margin="20dp"
         android:backgroundTint="@color/black"
+        app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
+        app:endIconMode="clear_text"
+        app:prefixText="R$ "
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextPrice_edit"
@@ -88,18 +101,23 @@
 
 
 
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_save_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/inputEditTextPrice_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_check_24"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="#40B629"
         app:backgroundTint="@color/white"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
         />
 
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
