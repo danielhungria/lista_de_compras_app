@@ -19,4 +19,8 @@
         android:id="@+id/editItemsFragment"
         android:name="com.example.listinha.ui.editItems.EditItemsFragment"
         android:label="EditItemsFragment" />
+    <dialog
+        android:id="@+id/deleteAllCompletedDialogFragment"
+        android:name="com.example.listinha.ui.deleteallcompleteditems.DeleteAllCompletedDialogFragment"
+        android:label="DeleteAllCompletedDialogFragment" /><action android:id="@+id/action_global_deleteAllCompletedDialogFragment" app:destination="@id/deleteAllCompletedDialogFragment"/>
 </navigation>

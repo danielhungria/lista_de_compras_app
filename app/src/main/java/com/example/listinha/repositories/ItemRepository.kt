@@ -21,5 +21,9 @@ class ItemRepository @Inject constructor (private val itemDao: ItemDao) {
         itemDao.delete(item)
     }
 
+    suspend fun deleteCompletedItem(){
+        itemDao.deleteCompletedItem()
+    }
+
 
 }

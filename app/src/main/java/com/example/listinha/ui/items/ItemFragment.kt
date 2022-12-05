@@ -5,6 +5,7 @@ import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.models.Item
+import com.example.listinha.ui.deleteallcompleteditems.DeleteAllCompletedDialogFragment
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,15 +40,16 @@ class ItemFragment : Fragment() {
                 menuInflater.inflate(R.menu.menu_fragment_item, menu)
                 val searchItem = menu.findItem(R.id.action_search)
                 val searchView = searchItem?.actionView as SearchView
+
                 setupSearchView(searchView)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
-                    R.id.action_sort -> {
+                    R.id.action_delete_all_completed_item -> {
+                        setupDeleteAllCompletedDialog()
                         true
-                    }
-                    else -> false
+                    }else -> false
                 }
             }
 
@@ -80,6 +83,10 @@ class ItemFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireContext())
             }
         }
+    }
+
+    private fun setupDeleteAllCompletedDialog() {
+        findNavController().navigate(R.id.action_global_deleteAllCompletedDialogFragment)
     }
 
     fun sumItems(item: List<Item>) {

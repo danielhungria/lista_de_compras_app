@@ -38,4 +38,8 @@ class ItemViewModel @Inject constructor(
         itemRepository.delete(item)
     }
 
+    fun onDeleteAllCompletedClick() = viewModelScope.launch {
+        itemRepository.deleteCompletedItem()
+    }
+
 }

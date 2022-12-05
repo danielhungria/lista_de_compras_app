@@ -19,4 +19,7 @@ interface ItemDao {
     @Delete
     suspend fun delete(item: Item)
 
+    @Query("DELETE FROM item_table WHERE completed = 1")
+    suspend fun deleteCompletedItem()
+
 }
