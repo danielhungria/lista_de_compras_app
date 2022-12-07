@@ -10,61 +10,24 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.databinding.FragmentEditItemBinding
+import com.example.listinha.extensions.toast
 import com.example.listinha.models.Item
 import com.example.listinha.viewmodel.EditItemsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EditItemsFragment: Fragment() {
+class EditItemsFragment : Fragment() {
 
     private lateinit var binding: FragmentEditItemBinding
 
-    private val editItemViewModel: EditItemsViewModel by viewModels()
-
-    private val itemToEdit by lazy {  arguments?.getParcelable<Item>(ITEM_TO_EDIT)  }
+    private val itemToEdit by lazy { arguments?.getParcelable<Item>(ITEM_TO_EDIT) }
 
     private val viewModel: EditItemsViewModel by viewModels()
 
-    private fun setupListener() {
-        binding.fabSaveList.setOnClickListener { _ ->
-            with(binding){
-                itemToEdit?.let {
-                    viewModel.onSaveEventEdit(
-                        id = it.id,
-                        name = editTextNameEdit.text.toString(),
-                        price = editTextPriceEdit.text.toString(),
-                        quantity = editTextQuantityEdit.text.toString(),
-                        closeScreen = {
-                            findNavController().popBackStack()
-                        }
-                    )
-                }
-            }
-
-        }
-    }
-
-    private fun setupAccordingToEditMode(item: Item?) = with(binding) {
-        item?.run {
-            binding.textViewTitleEdit.text = "Edit Item"
-            Toast.makeText(context, "${item.id}", Toast.LENGTH_LONG).show()
-            editTextNameEdit.setText(item.name)
-            editTextQuantityEdit.setText(item.quantity)
-            editTextPriceEdit.setText(item.price)
-        }
-    }
-
-    private fun setupSaveFab() = with(binding) {
-        fabSaveList.setOnClickListener {
-            editItemViewModel.onSaveEvent(
-                name = editTextNameEdit.text.toString(),
-                price = editTextPriceEdit.text.toString(),
-                quantity = editTextQuantityEdit.text.toString(),
-                closeScreen = {
-                    findNavController().popBackStack()
-                }
-            )
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupAccordingToEditMode(itemToEdit)
+        setupListener()
     }
 
     override fun onCreateView(
@@ -76,12 +39,30 @@ class EditItemsFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupSaveFab()
-        setupAccordingToEditMode(itemToEdit)
-        setupListener()
+    private fun setupListener() {
+        with(binding) {
+            fabSaveList.setOnClickListener { _ ->
+                viewModel.onSaveEvent(
+                    name = editTextNameEdit.text.toString(),
+                    price = editTextPriceEdit.text.toString(),
+                    quantity = editTextQuantityEdit.text.toString(),
+                    closeScreen = {
+                        findNavController().popBackStack()
+                    }
+                )
+            }
+        }
     }
 
 
+    private fun setupAccordingToEditMode(item: Item?) = with(binding) {
+        item?.run {
+            viewModel.setupEditMode(id)
+            textViewTitleEdit.text = "Edit Item"
+            Toast.makeText(context, "$id", Toast.LENGTH_LONG).show()
+            editTextNameEdit.setText(name)
+            editTextQuantityEdit.setText(quantity)
+            editTextPriceEdit.setText(price)
+        }
+    }
 }

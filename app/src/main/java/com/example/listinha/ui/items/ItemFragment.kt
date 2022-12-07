@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
+import com.example.listinha.components.GenericDialog
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.extensions.navigateTo
@@ -47,9 +48,10 @@ class ItemFragment : Fragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_delete_all_completed_item -> {
-                        setupDeleteAllCompletedDialog()
+                        showDeleteAllItemsCompletedDialog()
                         true
-                    }else -> false
+                    }
+                    else -> false
                 }
             }
 
@@ -85,12 +87,22 @@ class ItemFragment : Fragment() {
         }
     }
 
-    private fun setupDeleteAllCompletedDialog() {
-        navigateTo(R.id.action_global_deleteAllCompletedDialogFragment)
-    }
-
     private fun setupTotalMarketPrice() {
         binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
+    }
+
+    private fun showDeleteAllItemsCompletedDialog() {
+        context?.let {
+            GenericDialog.Builder(it)
+                .setTitle(getString(R.string.delete_all_items_completed_dialog_title))
+                .setBodyMessage(getString(R.string.delete_all_items_completed_dialog_body_message))
+                .setNegativeButtonText(getString(R.string.cancel))
+                .setPositiveButtonText(getString(R.string.yes))
+                .setOnPositiveButtonClickListener {
+                    viewModel.deleteAllItemsCompleted()
+                }
+                .build()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

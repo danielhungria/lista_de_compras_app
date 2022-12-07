@@ -10,9 +10,9 @@ import kotlinx.parcelize.Parcelize
 data class Item(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
-    val name: String,
-    val quantity: String,
-    val price: String,
+    val name: String = "",
+    val quantity: String ="",
+    val price: String = "",
     val completed: Boolean = false
 ): Parcelable{
     val totalPrice: Double?

@@ -9,10 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.databinding.ItemListBinding
-import com.example.listinha.extensions.concatMoneySymbol
-import com.example.listinha.extensions.isItalic
-import com.example.listinha.extensions.setCheckedSilent
-import com.example.listinha.extensions.showStrikeThrough
+import com.example.listinha.extensions.*
 import com.example.listinha.models.Item
 
 class ItemAdapter(
@@ -78,7 +75,7 @@ class ItemAdapter(
                 root.setOnClickListener {
                     onClick(item)
                 }
-                textViewPrice.text = item.totalPrice.concatMoneySymbol()
+                textViewPrice.text = item.totalPrice.formataParaMoedaBrasileira()
                 textViewName.text = item.name
                 textViewName.showStrikeThrough(item.completed)
                 textViewName.isItalic(item.completed)

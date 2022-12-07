@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.listinha.extensions.concatMoneySymbol
+import com.example.listinha.extensions.formataParaMoedaBrasileira
 import com.example.listinha.models.Item
 import com.example.listinha.repositories.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +41,12 @@ class ItemViewModel @Inject constructor(
     }
 
     fun getTotalMarketPrice() = _items.value?.sumOf {
-            it.totalPrice ?: 0.00
-        }.concatMoneySymbol()
+        it.totalPrice ?: 0.00
+    }.formataParaMoedaBrasileira()
+
+    fun deleteAllItemsCompleted() {
+        viewModelScope.launch {
+            itemRepository.deleteCompletedItem()
+        }
+    }
 }

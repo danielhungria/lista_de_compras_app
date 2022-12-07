@@ -12,36 +12,33 @@ import javax.inject.Inject
 class EditItemsViewModel @Inject constructor(private val itemRepository: ItemRepository) :
     ViewModel() {
 
+    private var itemId = 0
+
+    private var isEditMode = false
+
+    fun setupEditMode(itemId: Int) {
+        this.itemId = itemId
+        isEditMode = true
+    }
+
     fun onSaveEvent(
         name: String,
         quantity: String,
         price: String,
-        closeScreen:() -> Unit
+        closeScreen: () -> Unit
     ) {
         viewModelScope.launch {
-            itemRepository.insert(Item(
+            val itemToSave = Item(
+                id = itemId,
                 name = name,
                 quantity = quantity,
                 price = price
-            ))
-            closeScreen()
-        }
-    }
-
-    fun onSaveEventEdit(
-        id: Int,
-        name: String,
-        quantity: String,
-        price: String,
-        closeScreen:() -> Unit,
-    ) {
-        viewModelScope.launch {
-            itemRepository.update(Item(
-                name = name,
-                quantity = quantity,
-                price = price,
-                id = id
-            ))
+            )
+            if (isEditMode) {
+                itemRepository.update(itemToSave)
+            } else {
+                itemRepository.insert(itemToSave)
+            }
             closeScreen()
         }
     }
