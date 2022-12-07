@@ -17,7 +17,6 @@ import com.example.listinha.models.Item
 
 class ItemAdapter(
     val onComplete: (Boolean, Item) -> Unit,
-    //onclick passa item
     val onClick:(Item) -> Unit
 ) : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()), Filterable {
 

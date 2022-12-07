@@ -2,7 +2,6 @@ package com.example.listinha.ui.items
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
@@ -10,13 +9,14 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
+import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.databinding.FragmentListBinding
-import com.example.listinha.models.Item
+import com.example.listinha.extensions.navigateTo
+import com.example.listinha.extensions.toast
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,8 +30,8 @@ class ItemFragment : Fragment() {
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
     }, onClick = {
-        findNavController().navigate(R.id.action_itemFragment_to_editItemsFragment, bundleOf("item" to it))
-        Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
+        navigateTo(R.id.action_itemFragment_to_editItemsFragment, bundleOf(ITEM_TO_EDIT to it))
+        context?.toast(it.toString())
     })
 
     private fun setupMenu() {
@@ -41,7 +41,6 @@ class ItemFragment : Fragment() {
                 menuInflater.inflate(R.menu.menu_fragment_item, menu)
                 val searchItem = menu.findItem(R.id.action_search)
                 val searchView = searchItem?.actionView as SearchView
-
                 setupSearchView(searchView)
             }
 
@@ -73,7 +72,7 @@ class ItemFragment : Fragment() {
 
     private fun setupFab() {
         binding.fabAddList.setOnClickListener {
-            findNavController().navigate(R.id.action_itemFragment_to_editItemsFragment)
+            navigateTo(R.id.action_itemFragment_to_editItemsFragment)
         }
     }
 
@@ -87,10 +86,10 @@ class ItemFragment : Fragment() {
     }
 
     private fun setupDeleteAllCompletedDialog() {
-        findNavController().navigate(R.id.action_global_deleteAllCompletedDialogFragment)
+        navigateTo(R.id.action_global_deleteAllCompletedDialogFragment)
     }
 
-    fun setupTotalMarketPrice() {
+    private fun setupTotalMarketPrice() {
         binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
     }
 

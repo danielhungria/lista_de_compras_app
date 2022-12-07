@@ -3,7 +3,6 @@ package com.example.listinha.extensions
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.widget.TextView
-import org.w3c.dom.Text
 
 fun TextView.showStrikeThrough(show: Boolean) {
     paintFlags =
@@ -13,8 +12,4 @@ fun TextView.showStrikeThrough(show: Boolean) {
 
 fun TextView.isItalic(value: Boolean) {
     setTypeface(null, if(value) Typeface.ITALIC else Typeface.NORMAL)
-}
-
-fun TextView.changeColor(value: Boolean){
-
 }

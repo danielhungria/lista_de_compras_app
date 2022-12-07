@@ -18,7 +18,6 @@ class EditItemsViewModel @Inject constructor(private val itemRepository: ItemRep
         price: String,
         closeScreen:() -> Unit
     ) {
-
         viewModelScope.launch {
             itemRepository.insert(Item(
                 name = name,
@@ -27,7 +26,23 @@ class EditItemsViewModel @Inject constructor(private val itemRepository: ItemRep
             ))
             closeScreen()
         }
-
     }
 
+    fun onSaveEventEdit(
+        id: Int,
+        name: String,
+        quantity: String,
+        price: String,
+        closeScreen:() -> Unit,
+    ) {
+        viewModelScope.launch {
+            itemRepository.update(Item(
+                name = name,
+                quantity = quantity,
+                price = price,
+                id = id
+            ))
+            closeScreen()
+        }
+    }
 }

@@ -2,7 +2,6 @@ package com.example.listinha.repositories
 
 import com.example.listinha.data.ItemDao
 import com.example.listinha.models.Item
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ItemRepository @Inject constructor (private val itemDao: ItemDao) {
