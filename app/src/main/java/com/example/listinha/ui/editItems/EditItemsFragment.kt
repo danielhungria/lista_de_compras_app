@@ -10,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.databinding.FragmentEditItemBinding
-import com.example.listinha.extensions.toast
 import com.example.listinha.models.Item
 import com.example.listinha.viewmodel.EditItemsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -59,7 +58,6 @@ class EditItemsFragment : Fragment() {
         item?.run {
             viewModel.setupEditMode(id)
             textViewTitleEdit.text = "Edit Item"
-            Toast.makeText(context, "$id", Toast.LENGTH_LONG).show()
             editTextNameEdit.setText(name)
             editTextQuantityEdit.setText(quantity)
             editTextPriceEdit.setText(price)

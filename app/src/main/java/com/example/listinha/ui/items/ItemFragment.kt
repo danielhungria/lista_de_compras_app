@@ -17,7 +17,6 @@ import com.example.listinha.components.GenericDialog
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.extensions.navigateTo
-import com.example.listinha.extensions.toast
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -32,7 +31,6 @@ class ItemFragment : Fragment() {
         viewModel.onComplete(completed, item)
     }, onClick = {
         navigateTo(R.id.action_itemFragment_to_editItemsFragment, bundleOf(ITEM_TO_EDIT to it))
-        context?.toast(it.toString())
     })
 
     private fun setupMenu() {
