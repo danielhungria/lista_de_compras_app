@@ -9,13 +9,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.databinding.ItemListBinding
+import com.example.listinha.extensions.concatMoneySymbol
 import com.example.listinha.extensions.isItalic
 import com.example.listinha.extensions.setCheckedSilent
 import com.example.listinha.extensions.showStrikeThrough
 import com.example.listinha.models.Item
 
 class ItemAdapter(
-    val onComplete: (Boolean, Item) -> Unit
+    val onComplete: (Boolean, Item) -> Unit,
+    //onclick passa item
+    val onClick:(Item) -> Unit
 ) : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()), Filterable {
 
     private val customFilter = object : Filter() {
@@ -73,13 +76,10 @@ class ItemAdapter(
                 val checkBoxListener = CompoundButton.OnCheckedChangeListener { view, isChecked ->
                     view?.let { onComplete(isChecked, item) }
                 }
-                val itemQuantity = item.quantity.toDoubleOrNull()
-                val priceItem = item.price.toDoubleOrNull()
-                if (priceItem != null && itemQuantity != null) {
-                    val finalPrice = priceItem * itemQuantity
-                    val finalPriceFormat = String.format("%.2f", finalPrice)
-                    textViewPrice.text = "R$ ${finalPriceFormat}"
+                root.setOnClickListener {
+                    onClick(item)
                 }
+                textViewPrice.text = item.totalPrice.concatMoneySymbol()
                 textViewName.text = item.name
                 textViewName.showStrikeThrough(item.completed)
                 textViewName.isItalic(item.completed)

@@ -1,6 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Listinha" parent="Theme.MaterialComponents.Light">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">#6ECD89</item>
         <item name="colorPrimaryVariant">#3BAA49</item>
@@ -12,5 +13,6 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="collapsedTitleGravity">center_horizontal</item>
     </style>
 </resources>

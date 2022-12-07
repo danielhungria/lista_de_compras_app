@@ -14,4 +14,15 @@ data class Item(
     val quantity: String,
     val price: String,
     val completed: Boolean = false
-): Parcelable
+): Parcelable{
+    val totalPrice: Double?
+    get() {
+        val itemQuantity = quantity.toDoubleOrNull() ?: 1.00
+        val priceItem = price.toDoubleOrNull()
+        return if (priceItem != null) {
+            priceItem * itemQuantity
+        }else{
+            null
+        }
+    }
+}

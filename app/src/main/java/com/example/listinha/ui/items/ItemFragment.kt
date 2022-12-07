@@ -2,10 +2,11 @@ package com.example.listinha.ui.items
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,14 +17,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.models.Item
-import com.example.listinha.ui.deleteallcompleteditems.DeleteAllCompletedDialogFragment
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ItemFragment : Fragment() {
-
-    private val listItems = mutableListOf<Item>()
 
     private val viewModel: ItemViewModel by viewModels()
 
@@ -31,6 +29,9 @@ class ItemFragment : Fragment() {
 
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
+    }, onClick = {
+        findNavController().navigate(R.id.action_itemFragment_to_editItemsFragment, bundleOf("item" to it))
+        Toast.makeText(context, it.toString(), Toast.LENGTH_LONG).show()
     })
 
     private fun setupMenu() {
@@ -89,20 +90,8 @@ class ItemFragment : Fragment() {
         findNavController().navigate(R.id.action_global_deleteAllCompletedDialogFragment)
     }
 
-    fun sumItems(item: List<Item>) {
-        listItems.clear()
-        item.forEach {
-            val price = it.price.toDoubleOrNull()
-            val quantity = it.quantity.toDoubleOrNull()
-            if (price != null && quantity != null) {
-                listItems.add(it)
-            }
-        }
-        val sumAllItems = listItems.sumOf {
-            it.price.toDouble() * it.quantity.toDouble()
-        }
-        val sumAllItemsFormated = String.format("%.2f", sumAllItems)
-        binding.textviewTotalValueCardView.text = "R$ $sumAllItemsFormated"
+    fun setupTotalMarketPrice() {
+        binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -128,7 +117,7 @@ class ItemFragment : Fragment() {
         }).attachToRecyclerView(binding.recyclerViewList)
 
         viewModel.items.observe(viewLifecycleOwner) {
-            sumItems(it)
+            setupTotalMarketPrice()
             itemAdapter.updateList(it)
         }
         viewModel.fetchItemList()
