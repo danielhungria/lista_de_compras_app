@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EditItemsViewModel @Inject constructor(private val itemRepository: ItemRepository) :
+class AddEditItemsViewModel @Inject constructor(private val itemRepository: ItemRepository) :
     ViewModel() {
 
     private var itemId = 0

@@ -3,6 +3,7 @@ package com.example.listinha.di
 import android.content.Context
 import androidx.room.Room
 import com.example.listinha.data.ItemDatabase
+import com.example.listinha.data.ScreenListDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,9 +22,21 @@ object AppModule {
     ) = Room.databaseBuilder(context, ItemDatabase::class.java, "item.database")
             .build()
 
+    @Singleton
+    @Provides
+    fun provideDatabaseScreenList(
+        @ApplicationContext context: Context
+    ) = Room.databaseBuilder(context, ScreenListDatabase::class.java, "screen_list.database")
+        .build()
+
     @Provides
     fun providesItemDao(
         db: ItemDatabase
     ) = db.getItemDao()
+
+    @Provides
+    fun providesScreenListDao(
+        db1: ScreenListDatabase
+    ) = db1.getScreenListDao()
 
 }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
-    app:startDestination="@id/itemFragment">
+    app:startDestination="@id/screeListFragment">
 
     <fragment
         android:id="@+id/itemFragment"
@@ -17,6 +17,20 @@
 
     <fragment
         android:id="@+id/editItemsFragment"
-        android:name="com.example.listinha.ui.editItems.EditItemsFragment"
+        android:name="com.example.listinha.ui.items.AddEditItemsFragment"
         android:label="EditItemsFragment" />
+
+    <fragment
+        android:id="@+id/screeListFragment"
+        android:name="com.example.listinha.ui.listScreen.ScreenListFragment"
+        android:label="ScreenListFragment">
+        <action
+            android:id="@+id/action_screenListFragment_to_screenListAddEditFragment"
+            app:destination="@+id/screenListAddEditFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/screenListAddEditFragment"
+        android:name="com.example.listinha.ui.listScreen.AddEditScreenListFragment"
+        android:label="AddEditScreenListFragment"/>
 </navigation>
