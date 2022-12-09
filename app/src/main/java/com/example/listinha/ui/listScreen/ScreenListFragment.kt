@@ -24,7 +24,7 @@ class ScreenListFragment: Fragment() {
 
     private val screenListAdapter = ScreenListAdapter(onClick={
         navigateTo(
-            R.id.action_screenListFragment_to_screenListAddEditFragment,
+            R.id.action_screenListFragment_to_itemFragment,
             bundleOf(SCREEN_LIST_TO_EDIT to it)
         )})
 
@@ -49,7 +49,7 @@ class ScreenListFragment: Fragment() {
 
     private fun setupFab() {
         binding.fabAddListScreen.setOnClickListener {
-            navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment)
+            navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment2)
         }
     }
 

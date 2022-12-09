@@ -17,6 +17,7 @@ class ScreenListViewModel @Inject constructor(private val screenListRepository: 
     val screenLists: LiveData<List<ScreenList>>
         get() = _screenLists
 
+
     fun fetchScreenList() {
         viewModelScope.launch {
             screenListRepository.getAll().collect{

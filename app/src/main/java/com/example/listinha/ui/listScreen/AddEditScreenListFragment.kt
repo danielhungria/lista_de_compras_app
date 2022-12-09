@@ -38,13 +38,11 @@ class AddEditScreenListFragment : Fragment(){
     }
 
     private fun setupAccordingToEditMode(screenList: ScreenList?) = with(binding) {
-
         screenList?.run {
             viewModel.setupEditMode(id)
             editTextNameScreenAddEditList.setText(name)
             editTextDescriptionScreenAddEditList.setText(description)
         }
-
     }
 
     private fun setupListener() {

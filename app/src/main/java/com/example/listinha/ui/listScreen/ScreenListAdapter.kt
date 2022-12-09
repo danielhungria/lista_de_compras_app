@@ -1,12 +1,20 @@
 package com.example.listinha.ui.listScreen
 
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.listinha.constants.Constants.SCREEN_LIST_ADAPTER
 import com.example.listinha.databinding.CardviewListScreenBinding
 import com.example.listinha.models.ScreenList
+import com.example.listinha.ui.items.AddEditItemsFragment
+import com.example.listinha.ui.items.ItemFragment
 
 
 class ScreenListAdapter(

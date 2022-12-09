@@ -13,7 +13,8 @@ data class Item(
     val name: String = "",
     val quantity: String ="",
     val price: String = "",
-    val completed: Boolean = false
+    val completed: Boolean = false,
+    val idList: Int?
 ): Parcelable{
     val totalPrice: Double?
     get() {

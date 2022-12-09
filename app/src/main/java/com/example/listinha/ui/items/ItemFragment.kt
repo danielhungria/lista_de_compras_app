@@ -1,6 +1,7 @@
 package com.example.listinha.ui.items
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
@@ -15,8 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.listinha.R
 import com.example.listinha.components.GenericDialog
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
+import com.example.listinha.constants.Constants.SCREEN_LIST_ID
+import com.example.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.extensions.navigateTo
+import com.example.listinha.models.Item
+import com.example.listinha.models.ScreenList
 import com.example.listinha.viewmodel.ItemViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,10 +32,15 @@ class ItemFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
 
+    private val screenList by lazy { arguments?.getParcelable<ScreenList>(SCREEN_LIST_TO_EDIT) }
+
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
         viewModel.onComplete(completed, item)
     }, onClick = {
-        navigateTo(R.id.action_itemFragment_to_editItemsFragment, bundleOf(ITEM_TO_EDIT to it))
+        navigateTo(R.id.action_itemFragment_to_editItemsFragment, bundleOf(
+            ITEM_TO_EDIT to it,
+            SCREEN_LIST_ID to screenList?.id
+        ))
     })
 
     private fun setupMenu() {
@@ -72,7 +82,7 @@ class ItemFragment : Fragment() {
 
     private fun setupFab() {
         binding.fabAddList.setOnClickListener {
-            navigateTo(R.id.action_itemFragment_to_editItemsFragment)
+            navigateTo(R.id.action_itemFragment_to_editItemsFragment, bundleOf(SCREEN_LIST_ID to screenList?.id))
         }
     }
 
@@ -106,6 +116,7 @@ class ItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+        Log.i("Fragment", "onViewCreated ItemFragment: $screenList")
         setupFab()
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT
@@ -129,6 +140,8 @@ class ItemFragment : Fragment() {
             setupTotalMarketPrice()
             itemAdapter.updateList(it)
         }
+//        Log.i("Fragment", "onViewCreated: $screenListId")
+        screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()
         setupMenu()
     }

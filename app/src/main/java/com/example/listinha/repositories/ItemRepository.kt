@@ -8,6 +8,8 @@ class ItemRepository @Inject constructor (private val itemDao: ItemDao) {
 
     fun getAll() = itemDao.getAll()
 
+    fun getAllItemsOfList(idList: Int) = itemDao.getAllItemsOfList(idList)
+
     suspend fun insert(item: Item){
         itemDao.insert(item)
     }

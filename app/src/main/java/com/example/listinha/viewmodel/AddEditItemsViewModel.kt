@@ -3,6 +3,7 @@ package com.example.listinha.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.listinha.models.Item
+import com.example.listinha.models.ScreenList
 import com.example.listinha.repositories.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,14 +26,16 @@ class AddEditItemsViewModel @Inject constructor(private val itemRepository: Item
         name: String,
         quantity: String,
         price: String,
-        closeScreen: () -> Unit
+        closeScreen: () -> Unit,
+        idList: Int?
     ) {
         viewModelScope.launch {
             val itemToSave = Item(
                 id = itemId,
                 name = name,
                 quantity = quantity,
-                price = price
+                price = price,
+                idList = idList
             )
             if (isEditMode) {
                 itemRepository.update(itemToSave)

@@ -25,7 +25,10 @@
         android:name="com.example.listinha.ui.listScreen.ScreenListFragment"
         android:label="ScreenListFragment">
         <action
-            android:id="@+id/action_screenListFragment_to_screenListAddEditFragment"
+            android:id="@+id/action_screenListFragment_to_itemFragment"
+            app:destination="@+id/itemFragment"/>
+        <action
+            android:id="@+id/action_screenListFragment_to_screenListAddEditFragment2"
             app:destination="@+id/screenListAddEditFragment"/>
     </fragment>
 

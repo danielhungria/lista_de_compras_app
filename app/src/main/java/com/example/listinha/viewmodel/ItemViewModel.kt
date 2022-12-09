@@ -17,13 +17,19 @@ class ItemViewModel @Inject constructor(
     private val itemRepository: ItemRepository
 ) : ViewModel() {
 
+    private var listId: Int = 0
+
     private val _items = MutableLiveData<List<Item>>()
     val items: LiveData<List<Item>>
         get() = _items
 
+    fun setup(listId: Int){
+        this.listId = listId
+    }
+
     fun fetchItemList() {
         viewModelScope.launch {
-            itemRepository.getAll().collect {
+            itemRepository.getAllItemsOfList(listId).collect {
                 _items.postValue(it)
             }
         }
