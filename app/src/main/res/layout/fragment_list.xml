@@ -71,7 +71,7 @@
             android:textStyle="italic"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:text="Total Market"/>
+            android:text="@string/total_market"/>
 
         <TextView
             android:id="@+id/textviewTotalValueCardView"
@@ -110,8 +110,7 @@
         android:src="@drawable/ic_baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/white"
-        app:backgroundTint="@color/white"
+        app:backgroundTint="@color/teal_200"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

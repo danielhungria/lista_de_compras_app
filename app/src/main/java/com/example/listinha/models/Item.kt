@@ -26,4 +26,8 @@ data class Item(
             null
         }
     }
+    val priceFormat: Double?
+        get() {
+            return price.toDoubleOrNull()
+        }
 }

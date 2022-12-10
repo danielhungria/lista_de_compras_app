@@ -56,7 +56,6 @@
         android:layout_margin="20dp"
         android:textStyle="bold"
         android:textSize="40sp"
-        android:textColor="@color/black"
         android:text="@string/add_item"/>
 
     <TextView
@@ -70,7 +69,6 @@
         android:textStyle="bold"
         android:textSize="15sp"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:text="@string/textview_description_edit_item"/>
 
     <com.google.android.material.textfield.TextInputLayout

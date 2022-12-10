@@ -1,7 +1,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.Listinha" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="31">false</item>
         <!-- Primary brand color. -->
         <item name="colorPrimary">#009688</item>
         <item name="colorPrimaryVariant">#009688</item>
@@ -16,6 +16,7 @@
         <item name="collapsedTitleGravity">center_horizontal</item>
         <item name="colorSurface">#009688</item>
         <item name="colorOnSurface">#009688</item>
+        <item name="background">@color/white</item>
     </style>
 
 </resources>

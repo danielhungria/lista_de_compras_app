@@ -14,44 +14,45 @@
         android:layout_alignParentStart="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_name"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/divideritemList"
         />
-    
+
     <TextView
         android:id="@+id/text_view_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="Example"
+        android:ellipsize="end"
         android:maxLines="1"
-        android:textSize="20sp"
-        app:layout_constraintTop_toTopOf="@+id/check_box"
         app:layout_constraintBottom_toBottomOf="@+id/check_box"
+        app:layout_constraintEnd_toStartOf="@+id/text_view_quantity"
         app:layout_constraintStart_toEndOf="@+id/check_box"
-        android:textColor="@color/black"
-        />
+        app:layout_constraintTop_toTopOf="@+id/check_box"
+        tools:text="Example" />
 
     <TextView
         android:id="@+id/text_view_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@id/text_view_name"
+        android:layout_marginEnd="90dp"
         app:layout_constraintBottom_toBottomOf="@id/text_view_name"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="110dp"
-        tools:text="1"
-        />
+        app:layout_constraintStart_toEndOf="@+id/text_view_name"
+        app:layout_constraintTop_toTopOf="@id/text_view_name"
+        tools:text="2 / R$ 10,00" />
 
     <TextView
         android:id="@+id/text_view_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="R$ 20,00"
-        app:layout_constraintTop_toTopOf="@id/text_view_name"
+        android:layout_marginStart="26dp"
+        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="@id/text_view_name"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="10dp"
-        />
+        app:layout_constraintStart_toEndOf="@+id/text_view_quantity"
+        app:layout_constraintTop_toTopOf="@id/text_view_name"
+        tools:text="R$ 20,00" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divideritemList"

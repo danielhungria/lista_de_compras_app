@@ -16,4 +16,5 @@
     <string name="edit_text_hint_quantity">Quantidade</string>
     <string name="edit_text_hint_price">Preço</string>
     <string name="edit_text_hint_description">Descrição</string>
+    <string name="total_market">Valor Total</string>
 </resources>
