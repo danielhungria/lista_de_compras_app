@@ -1,9 +1,11 @@
 package com.example.listinha.ui.listScreen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,7 +28,12 @@ class ScreenListFragment: Fragment() {
         navigateTo(
             R.id.action_screenListFragment_to_itemFragment,
             bundleOf(SCREEN_LIST_TO_EDIT to it)
-        )})
+        )}, longPress = {
+            navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment2,
+            bundleOf(SCREEN_LIST_TO_EDIT to it))
+    }, longPressDelete = {screenList ->
+        viewModel.delete(screenList)
+    })
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +48,8 @@ class ScreenListFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViewScreenList()
         setupFab()
+        val onClick = screenListAdapter.onClick
+        Log.i("Fragment", "onViewCreated: $onClick")
         viewModel.screenLists.observe(viewLifecycleOwner){
             screenListAdapter.updateList(it)
         }

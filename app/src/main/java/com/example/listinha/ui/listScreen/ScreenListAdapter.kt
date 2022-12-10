@@ -1,25 +1,23 @@
 package com.example.listinha.ui.listScreen
 
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.listinha.constants.Constants.SCREEN_LIST_ADAPTER
+import com.example.listinha.R
 import com.example.listinha.databinding.CardviewListScreenBinding
 import com.example.listinha.models.ScreenList
-import com.example.listinha.ui.items.AddEditItemsFragment
-import com.example.listinha.ui.items.ItemFragment
 
 
 class ScreenListAdapter(
-    val onClick:(ScreenList) -> Unit
-): ListAdapter<ScreenList, ScreenListAdapter.ListViewHolder>(DiffCallback()) {
+    val onClick: (ScreenList) -> Unit,
+    val longPress: (ScreenList) -> Unit,
+    val longPressDelete: (ScreenList) -> Unit
+) : ListAdapter<ScreenList, ScreenListAdapter.ListViewHolder>(DiffCallback()) {
 
     private var fullList = mutableListOf<ScreenList>()
 
@@ -30,11 +28,15 @@ class ScreenListAdapter(
 
     inner class ListViewHolder(
         private val binding: CardviewListScreenBinding
-    ):RecyclerView.ViewHolder(binding.root){
+    ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(screenList: ScreenList) {
             binding.apply {
                 root.setOnClickListener {
                     onClick(screenList)
+                }
+                root.setOnLongClickListener {
+                    showMenu(it.context,it, R.menu.menu_popup_menu, screenList)
+                    true
                 }
                 textViewNameCardviewListScreen.text = screenList.name
                 textViewDescriptionCardviewListScreen.text = screenList.description
@@ -42,8 +44,37 @@ class ScreenListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScreenListAdapter.ListViewHolder {
-        val binding = CardviewListScreenBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    private fun showMenu(
+        context: Context,
+        view: View,
+        menuPopupMenu: Int,
+        screenList: ScreenList
+    ) {
+        val popup = PopupMenu(context, view)
+        popup.menuInflater.inflate(menuPopupMenu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.edit_popup_menu -> {
+                    longPress(screenList)
+                    true
+                }
+                R.id.delete_popup_menu -> {
+                    longPressDelete(screenList)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ScreenListAdapter.ListViewHolder {
+        val binding =
+            CardviewListScreenBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
     }
 

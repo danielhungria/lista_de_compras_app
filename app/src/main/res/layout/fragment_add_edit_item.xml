@@ -20,19 +20,44 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view_item_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="1dp">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_item_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_item_edit"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/toolbar_title_add"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textViewTitle_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_item_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp"
         android:textStyle="bold"
         android:textSize="40sp"
         android:textColor="@color/black"
-        android:text="Add Product"/>
+        android:text="@string/add_item"/>
 
     <TextView
         android:id="@+id/textViewDescription_edit"
@@ -46,7 +71,7 @@
         android:textSize="15sp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:text="Add item in your list. Choose name, quantity and price"/>
+        android:text="@string/textview_description_edit_item"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputEditTextName_edit"
@@ -62,8 +87,7 @@
             android:id="@+id/editTextName_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Item Name"
-            android:background="@color/white"
+            android:hint="@string/edit_text_hint_name"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,9 +105,8 @@
             android:id="@+id/editTextQuantity_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Item Quantity"
+            android:hint="@string/edit_text_hint_quantity"
             android:inputType="number"
-            android:background="@color/white"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,15 +120,13 @@
         android:backgroundTint="@color/black"
         app:startIconDrawable="@drawable/ic_baseline_attach_money_24"
         app:endIconMode="clear_text"
-        app:prefixText="R$ "
-        >
+        app:prefixText="R$ ">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextPrice_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:hint="Price"
-            android:background="@color/white"
+            android:hint="@string/edit_text_hint_price"
             />
     </com.google.android.material.textfield.TextInputLayout>
 

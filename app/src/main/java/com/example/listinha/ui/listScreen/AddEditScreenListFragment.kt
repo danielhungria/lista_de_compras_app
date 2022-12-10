@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.listinha.R
 import com.example.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import com.example.listinha.databinding.FragmentAddEditScreenListBinding
 import com.example.listinha.models.ScreenList
@@ -35,6 +36,7 @@ class AddEditScreenListFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
         setupAccordingToEditMode(screenListToEdit)
         setupListener()
+        setupMenu()
     }
 
     private fun setupAccordingToEditMode(screenList: ScreenList?) = with(binding) {
@@ -42,6 +44,9 @@ class AddEditScreenListFragment : Fragment(){
             viewModel.setupEditMode(id)
             editTextNameScreenAddEditList.setText(name)
             editTextDescriptionScreenAddEditList.setText(description)
+            toolbarListScreenEdit.title = getString(R.string.toolbar_title_edit)
+            textViewTitleAddEditList.setText(getString(R.string.textview_title_edit_list))
+            textViewDescriptionAddEditList.setText(getString(R.string.textview_description_edit))
         }
     }
 
@@ -56,6 +61,11 @@ class AddEditScreenListFragment : Fragment(){
                     }
                 )
             }
+        }
+    }
+    private fun setupMenu() {
+        binding.toolbarListScreenEdit.setNavigationOnClickListener {
+            findNavController().popBackStack()
         }
     }
 

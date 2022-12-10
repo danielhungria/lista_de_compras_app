@@ -21,18 +21,44 @@
     android:layout_height="match_parent"
     >
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view_list_screen_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="1dp">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar_list_screen_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_list_screen_edit"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/toolbar_title_add"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24"
+                />
+
+        </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.card.MaterialCardView>
+
     <TextView
         android:id="@+id/text_view_title_add_edit_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_list_screen_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="20dp"
         android:textStyle="bold"
         android:textSize="40sp"
         android:textColor="@color/black"
-        android:text="Add List"/>
+        android:text="@string/add_list"/>
 
     <TextView
         android:id="@+id/text_view_description_add_edit_list"
@@ -46,7 +72,7 @@
         android:textSize="15sp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:text="Add your lists. Choose name, and description"/>
+        android:text="@string/textview_description_edit"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_name_screen_add_edit_list"
@@ -62,8 +88,7 @@
             android:id="@+id/edit_text_name_screen_add_edit_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="List Name"
-            android:background="@color/white"
+            android:hint="@string/edit_text_hint_name"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,8 +106,7 @@
             android:id="@+id/edit_text_description_screen_add_edit_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
-            android:background="@color/white"
+            android:hint="@string/edit_text_hint_description"
             />
     </com.google.android.material.textfield.TextInputLayout>
 

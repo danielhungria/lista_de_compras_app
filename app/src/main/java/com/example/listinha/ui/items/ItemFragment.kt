@@ -10,6 +10,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,26 +45,43 @@ class ItemFragment : Fragment() {
     })
 
     private fun setupMenu() {
-        val menuHost: MenuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_fragment_item, menu)
-                val searchItem = menu.findItem(R.id.action_search)
-                val searchView = searchItem?.actionView as SearchView
-                setupSearchView(searchView)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when (menuItem.itemId) {
-                    R.id.action_delete_all_completed_item -> {
-                        showDeleteAllItemsCompletedDialog()
-                        true
-                    }
-                    else -> false
+        binding.toolbar.setOnMenuItemClickListener {
+            when(it.itemId){
+                R.id.action_search -> {
+                    val searchView = it?.actionView as SearchView
+                    setupSearchView(searchView)
+                    true
                 }
+                R.id.action_delete_all_completed_item -> {
+                    showDeleteAllItemsCompletedDialog()
+                    true
+                }
+                else -> false
             }
-
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
+//        val menuHost: MenuHost = requireActivity()
+//        menuHost.addMenuProvider(object : MenuProvider {
+//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+//                menuInflater.inflate(R.menu.menu_fragment_item, menu)
+//                val searchItem = menu.findItem(R.id.action_search)
+//                val searchView = searchItem?.actionView as SearchView
+//                setupSearchView(searchView)
+//            }
+//
+//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+//                return when (menuItem.itemId) {
+//                    R.id.action_delete_all_completed_item -> {
+//                        showDeleteAllItemsCompletedDialog()
+//                        true
+//                    }
+//                    else -> false
+//                }
+//            }
+//
+//        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun setupSearchView(searchView: SearchView) {
@@ -116,8 +134,8 @@ class ItemFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
-        Log.i("Fragment", "onViewCreated ItemFragment: $screenList")
         setupFab()
+        setupMenu()
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT
         ) {
@@ -140,10 +158,8 @@ class ItemFragment : Fragment() {
             setupTotalMarketPrice()
             itemAdapter.updateList(it)
         }
-//        Log.i("Fragment", "onViewCreated: $screenListId")
         screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()
-        setupMenu()
     }
 
     override fun onCreateView(

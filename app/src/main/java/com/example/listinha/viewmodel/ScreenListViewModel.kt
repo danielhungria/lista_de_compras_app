@@ -26,4 +26,10 @@ class ScreenListViewModel @Inject constructor(private val screenListRepository: 
         }
     }
 
+    fun delete(screenList: ScreenList) {
+        viewModelScope.launch{
+            screenListRepository.delete(screenList)
+        }
+    }
+
 }

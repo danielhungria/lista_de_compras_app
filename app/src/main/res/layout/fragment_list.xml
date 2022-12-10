@@ -7,7 +7,32 @@
     tools:context=".ui.items.ItemFragment"
     android:fitsSystemWindows="true"
     >
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/Widget.Material3.CardView.Elevated"
+        app:cardElevation="3dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:cardCornerRadius="1dp">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/menu_fragment_item"
+                app:title="Itens"
+                app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24"
+                style=""/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/dividerFragmentList"
         android:layout_width="match_parent"
@@ -23,11 +48,12 @@
         android:id="@+id/cardViewFragmentList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardElevation="5dp"
+        app:cardElevation="2dp"
         android:layout_margin="15dp"
+        style="@style/Widget.Material3.CardView.Elevated"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +70,7 @@
             android:layout_margin="5dp"
             android:textStyle="italic"
             android:textSize="15sp"
+            android:textColor="@color/white"
             android:text="Total Market"/>
 
         <TextView
@@ -55,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginHorizontal="10dp"
             android:textStyle="bold"
-            android:textColor="#2DC83C"
+            android:textColor="@color/white"
             android:textSize="30dp"
             android:text="R$ 0,00"/>
 

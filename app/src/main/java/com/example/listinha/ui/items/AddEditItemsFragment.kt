@@ -5,9 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.listinha.R
 import com.example.listinha.constants.Constants.ITEM_TO_EDIT
 import com.example.listinha.constants.Constants.SCREEN_LIST_ID
 import com.example.listinha.databinding.FragmentAddEditItemBinding
@@ -30,7 +32,7 @@ class AddEditItemsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupAccordingToEditMode(itemToEdit)
         setupListener()
-        Log.i("Fragment", "onViewCreated: $screenListId")
+        setupMenu()
     }
 
     override fun onCreateView(
@@ -63,12 +65,20 @@ class AddEditItemsFragment : Fragment() {
     private fun setupAccordingToEditMode(item: Item?) = with(binding) {
         item?.run {
             viewModel.setupEditMode(id)
-            textViewTitleEdit.text = "Edit Item"
             editTextNameEdit.setText(name)
             editTextQuantityEdit.setText(quantity)
             editTextPriceEdit.setText(price)
+            toolbarItemEdit.title = getString(R.string.toolbar_title_edit)
+            textViewDescriptionEdit.setText(getString(R.string.textview_description_edit))
+            textViewTitleEdit.setText(getString(R.string.textview_title_edit_item))
         }
 
+    }
+
+    private fun setupMenu() {
+        binding.toolbarItemEdit.setNavigationOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 
 }

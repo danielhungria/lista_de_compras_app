@@ -4,4 +4,16 @@
     <string name="delete_all_items_completed_dialog_body_message">Do you really want to delete all completed items?</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
+    <string name="textview_title_edit_list">Edite sua Lista</string>
+    <string name="textview_title_edit_item">Edite seu Item</string>
+    <string name="toolbar_title_edit">Editar</string>
+    <string name="textview_description_edit">Escolha o nome e a descriçao</string>
+    <string name="textview_description_edit_item">Escolha o nome, quantidade e preço</string>
+    <string name="add_item">Adicionar seu Item</string>
+    <string name="add_list">Adicionar sua Lista</string>
+    <string name="toolbar_title_add">Adicionar</string>
+    <string name="edit_text_hint_name">Nome</string>
+    <string name="edit_text_hint_quantity">Quantidade</string>
+    <string name="edit_text_hint_price">Preço</string>
+    <string name="edit_text_hint_description">Descrição</string>
 </resources>
