@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card_view_list_screen"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         tools:listitem="@layout/cardview_list_screen"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -45,12 +45,27 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:layout_gravity="bottom|end"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/teal_200"
         app:backgroundTint="@color/white"
         app:icon="@drawable/ic_baseline_add_24"
         android:text="Add nova Lista"
         />
+
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-1398509773631594/6113438086"
+        ads:layout_constraintTop_toBottomOf="@+id/recycler_view_screen_list"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent">
+    </com.google.android.gms.ads.AdView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

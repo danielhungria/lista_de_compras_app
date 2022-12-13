@@ -93,5 +93,9 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.44"
     kapt "com.google.dagger:hilt-compiler:2.44"
 
+    //AdMob
+    implementation 'com.google.android.gms:play-services-ads:21.3.0'
+
+
 
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.listinha.models.Item
 import com.example.listinha.models.ScreenList
 import com.example.listinha.repositories.ScreenListRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,6 +31,10 @@ class ScreenListViewModel @Inject constructor(private val screenListRepository: 
         viewModelScope.launch{
             screenListRepository.delete(screenList)
         }
+    }
+
+    fun onItemSwiped(screenList: ScreenList) = viewModelScope.launch {
+        screenListRepository.delete(screenList)
     }
 
 }

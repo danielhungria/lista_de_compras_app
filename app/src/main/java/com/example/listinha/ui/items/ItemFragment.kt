@@ -134,11 +134,7 @@ class ItemFragment : Fragment() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        setupFab()
-        setupMenu()
+    private fun setupItemTouchHelper() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
             0, ItemTouchHelper.LEFT
         ) {
@@ -177,13 +173,6 @@ class ItemFragment : Fragment() {
             }
 
         }).attachToRecyclerView(binding.recyclerViewList)
-
-        viewModel.items.observe(viewLifecycleOwner) {
-            setupTotalMarketPrice()
-            itemAdapter.updateList(it)
-        }
-        screenList?.id?.let { viewModel.setup(it) }
-        viewModel.fetchItemList()
     }
 
     private fun setDeleteIcon(
@@ -226,6 +215,21 @@ class ItemFragment : Fragment() {
         val deleteIconBottom = deleteIconTop + intrinsicHeight
         deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
         deleteDrawable.draw(c)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        setupFab()
+        setupMenu()
+        setupItemTouchHelper()
+
+        viewModel.items.observe(viewLifecycleOwner) {
+            setupTotalMarketPrice()
+            itemAdapter.updateList(it)
+        }
+        screenList?.id?.let { viewModel.setup(it) }
+        viewModel.fetchItemList()
     }
 
     override fun onCreateView(

@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.listinha">
 
+    <!-- For apps targeting Android 13 or higher & GMA SDK version 20.3.0 or lower -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".application.ItemApplication"
         android:allowBackup="false"
@@ -24,6 +29,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Sample AdMob app ID: ca-app-pub-1398509773631594/6113438086 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-1398509773631594~2752815569"/>
+
     </application>
 
 </manifest>
