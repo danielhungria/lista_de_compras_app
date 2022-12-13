@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Listinha</string>
+    <string name="app_name">Cadê a Lista?</string>
     <string name="delete_all_items_completed_dialog_title">Confirm deletion</string>
     <string name="delete_all_items_completed_dialog_body_message">Do you really want to delete all completed items?</string>
     <string name="cancel">Cancel</string>

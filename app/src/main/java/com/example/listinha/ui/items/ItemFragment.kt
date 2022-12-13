@@ -1,9 +1,12 @@
 package com.example.listinha.ui.items
 
+import android.graphics.*
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -152,6 +155,27 @@ class ItemFragment : Fragment() {
                 viewModel.onItemSwiped(item)
             }
 
+            override fun onChildDraw(
+                c: Canvas,
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                dX: Float,
+                dY: Float,
+                actionState: Int,
+                isCurrentlyActive: Boolean
+            ) {
+                setDeleteIcon(c, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                super.onChildDraw(
+                    c,
+                    recyclerView,
+                    viewHolder,
+                    dX,
+                    dY,
+                    actionState,
+                    isCurrentlyActive
+                )
+            }
+
         }).attachToRecyclerView(binding.recyclerViewList)
 
         viewModel.items.observe(viewLifecycleOwner) {
@@ -160,6 +184,48 @@ class ItemFragment : Fragment() {
         }
         screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()
+    }
+
+    private fun setDeleteIcon(
+        c: Canvas,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        currentlyActive: Boolean
+    ) {
+        val mClearPaint = Paint()
+        mClearPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
+        val mBackground = ColorDrawable()
+        val backgroundColor = Color.parseColor("#b80f0a")
+        val deleteDrawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_baseline_delete_24) }
+        val intrinsicWidth = deleteDrawable!!.intrinsicWidth
+        val intrinsicHeight = deleteDrawable!!.intrinsicHeight
+        val itemView = viewHolder.itemView
+        val itemHeight = itemView.height
+        val isCancelled = dX == 0f && !currentlyActive
+        if (isCancelled){
+            c.drawRect(
+                itemView.right + dX, itemView.top.toFloat(),
+                itemView.right.toFloat(), itemView.bottom.toFloat(), mClearPaint
+            )
+            return
+        }
+        mBackground.color = backgroundColor
+        mBackground.setBounds(
+            itemView.right + dX.toInt(),
+            itemView.top,
+            itemView.right,
+            itemView.bottom
+        )
+        mBackground.draw(c)
+        val deleteIconTop = itemView.top + (itemHeight - intrinsicHeight)/2
+        val deleteIconMargin = (itemHeight - intrinsicHeight)/2
+        val deleteIconLeft = itemView.right - deleteIconMargin - intrinsicWidth
+        val deleteIconRight = itemView.right - deleteIconMargin
+        val deleteIconBottom = deleteIconTop + intrinsicHeight
+        deleteDrawable.setBounds(deleteIconLeft, deleteIconTop, deleteIconRight, deleteIconBottom)
+        deleteDrawable.draw(c)
     }
 
     override fun onCreateView(
