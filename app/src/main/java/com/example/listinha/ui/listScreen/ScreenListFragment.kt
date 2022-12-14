@@ -1,14 +1,9 @@
 package com.example.listinha.ui.listScreen
 
-import android.graphics.*
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,22 +21,25 @@ import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ScreenListFragment: Fragment() {
+class ScreenListFragment : Fragment() {
 
-    private val viewModel:  ScreenListViewModel by viewModels()
+    private val viewModel: ScreenListViewModel by viewModels()
 
     private lateinit var binding: FragmentListScreenBinding
 
     private lateinit var mAdView: AdView
 
-    private val screenListAdapter = ScreenListAdapter(onClick={
+    private val screenListAdapter = ScreenListAdapter(onClick = {
         navigateTo(
             R.id.action_screenListFragment_to_itemFragment,
             bundleOf(SCREEN_LIST_TO_EDIT to it)
-        )}, longPress = {
-            navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment2,
-            bundleOf(SCREEN_LIST_TO_EDIT to it))
-    }, longPressDelete = {screenList ->
+        )
+    }, longPress = {
+        navigateTo(
+            R.id.action_screenListFragment_to_screenListAddEditFragment2,
+            bundleOf(SCREEN_LIST_TO_EDIT to it)
+        )
+    }, longPressDelete = { screenList ->
         viewModel.delete(screenList)
     })
 
@@ -59,7 +57,7 @@ class ScreenListFragment: Fragment() {
         setupRecyclerViewScreenList()
         setupFab()
         setupItemTouchHelper()
-        viewModel.screenLists.observe(viewLifecycleOwner){
+        viewModel.screenLists.observe(viewLifecycleOwner) {
             screenListAdapter.updateList(it)
         }
         viewModel.fetchScreenList()
@@ -80,7 +78,7 @@ class ScreenListFragment: Fragment() {
         binding.apply {
             recyclerViewScreenList.apply {
                 adapter = screenListAdapter
-                layoutManager = GridLayoutManager(requireContext(),2)
+                layoutManager = GridLayoutManager(requireContext(), 2)
             }
         }
     }

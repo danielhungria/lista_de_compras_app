@@ -35,8 +35,11 @@ class ScreenListAdapter(
                     onClick(screenList)
                 }
                 root.setOnLongClickListener {
-                    showMenu(it.context,it, R.menu.menu_popup_menu, screenList)
+                    showMenu(it.context, it, R.menu.menu_popup_menu, screenList)
                     true
+                }
+                buttonPanel.setOnClickListener {
+                    showMenu(it.context, it, R.menu.menu_popup_menu, screenList)
                 }
                 textViewNameCardviewListScreen.text = screenList.name
                 textViewDescriptionCardviewListScreen.text = screenList.description
@@ -53,7 +56,7 @@ class ScreenListAdapter(
         val popup = PopupMenu(context, view)
         popup.menuInflater.inflate(menuPopupMenu, popup.menu)
         popup.setOnMenuItemClickListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.edit_popup_menu -> {
                     longPress(screenList)
                     true

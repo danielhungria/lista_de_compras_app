@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_view_title_add_edit_list"
         android:layout_margin="20dp"
-        app:startIconDrawable="@drawable/ic_baseline_short_text_24"
+        app:startIconDrawable="@drawable/ic_baseline_text_description"
         app:endIconMode="clear_text"
         >
         <com.google.android.material.textfield.TextInputEditText
@@ -97,7 +97,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/text_input_name_screen_add_edit_list"
         android:layout_margin="20dp"
-        app:startIconDrawable="@drawable/ic_baseline_shopping_cart_24"
+        app:startIconDrawable="@drawable/ic_baseline_short_text_24"
         app:endIconMode="clear_text"
         >
         <com.google.android.material.textfield.TextInputEditText
