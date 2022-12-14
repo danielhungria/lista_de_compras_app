@@ -32,7 +32,7 @@ class ScreenListFragment: Fragment() {
 
     private lateinit var binding: FragmentListScreenBinding
 
-    lateinit var mAdView: AdView
+    private lateinit var mAdView: AdView
 
     private val screenListAdapter = ScreenListAdapter(onClick={
         navigateTo(
@@ -64,7 +64,7 @@ class ScreenListFragment: Fragment() {
         }
         viewModel.fetchScreenList()
         context?.let { MobileAds.initialize(it) }
-        mAdView = binding.adView
+        mAdView = binding.adViewScreenList
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
 

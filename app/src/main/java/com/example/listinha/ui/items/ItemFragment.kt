@@ -27,10 +27,15 @@ import com.example.listinha.extensions.navigateTo
 import com.example.listinha.models.Item
 import com.example.listinha.models.ScreenList
 import com.example.listinha.viewmodel.ItemViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ItemFragment : Fragment() {
+
+    private lateinit var mAdView: AdView
 
     private val viewModel: ItemViewModel by viewModels()
 
@@ -230,6 +235,12 @@ class ItemFragment : Fragment() {
         }
         screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()
+
+        context?.let { MobileAds.initialize(it) }
+        mAdView = binding.adViewItemList
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+
     }
 
     override fun onCreateView(

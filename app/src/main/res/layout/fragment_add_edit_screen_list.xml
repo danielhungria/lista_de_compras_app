@@ -54,30 +54,30 @@
         app:layout_constraintTop_toBottomOf="@+id/card_view_list_screen_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
         android:textStyle="bold"
-        android:textSize="40sp"
+        android:textSize="20sp"
+        android:layout_margin="20dp"
         android:text="@string/add_list"/>
 
-    <TextView
-        android:id="@+id/text_view_description_add_edit_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_title_add_edit_list"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textSize="15sp"
-        android:textAlignment="center"
-        android:text="@string/textview_description_edit"/>
+<!--    <TextView-->
+<!--        android:id="@+id/text_view_description_add_edit_list"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/text_view_title_add_edit_list"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="15sp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:text="@string/textview_description_edit"/>-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_name_screen_add_edit_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_view_description_add_edit_list"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_title_add_edit_list"
         android:layout_margin="20dp"
         app:startIconDrawable="@drawable/ic_baseline_short_text_24"
         app:endIconMode="clear_text"
@@ -113,12 +113,28 @@
 
 </ScrollView>
 
+    <!-- ca-app-pub-3940256099942544/6300978111 -->
+    <!-- ca-app-pub-1398509773631594/6113438086 -->
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView_screen_list_add_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/ad_id_test"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:layout_constraintStart_toStartOf="parent"
+        ads:layout_constraintEnd_toEndOf="parent">
+    </com.google.android.gms.ads.AdView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_save_screen_add_edit_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView_screen_list_add_edit"
         android:src="@drawable/ic_baseline_check_24"
         android:backgroundTint="#40B629"
         app:backgroundTint="@color/white"

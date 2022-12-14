@@ -15,10 +15,15 @@ import com.example.listinha.constants.Constants.SCREEN_LIST_ID
 import com.example.listinha.databinding.FragmentAddEditItemBinding
 import com.example.listinha.models.Item
 import com.example.listinha.viewmodel.AddEditItemsViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AddEditItemsFragment : Fragment() {
+
+    private lateinit var mAdView: AdView
 
     private lateinit var binding: FragmentAddEditItemBinding
 
@@ -33,6 +38,10 @@ class AddEditItemsFragment : Fragment() {
         setupAccordingToEditMode(itemToEdit)
         setupListener()
         setupMenu()
+        context?.let { MobileAds.initialize(it) }
+        mAdView = binding.adViewItemListAddEdit
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onCreateView(
@@ -69,8 +78,8 @@ class AddEditItemsFragment : Fragment() {
             editTextQuantityEdit.setText(quantity)
             editTextPriceEdit.setText(price)
             toolbarItemEdit.title = getString(R.string.toolbar_title_edit)
-            textViewDescriptionEdit.setText(getString(R.string.textview_description_edit))
-            textViewTitleEdit.setText(getString(R.string.textview_title_edit_item))
+//            textViewDescriptionEdit.setText(getString(R.string.textview_description_edit))
+//            textViewTitleEdit.setText(getString(R.string.textview_title_edit_item))
         }
 
     }

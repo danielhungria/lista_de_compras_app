@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/edit_popup_menu"
-        android:title="Edit"
+        android:title="@string/edit_title"
         />
     <item
         android:id="@+id/delete_popup_menu"
-        android:title="Delete"
+        android:title="@string/delete_title"
         />
 </menu>

@@ -12,6 +12,9 @@ import com.example.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import com.example.listinha.databinding.FragmentAddEditScreenListBinding
 import com.example.listinha.models.ScreenList
 import com.example.listinha.viewmodel.AddEditScreenListViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -22,6 +25,8 @@ class AddEditScreenListFragment : Fragment(){
     private val viewModel: AddEditScreenListViewModel by viewModels()
 
     private val screenListToEdit by lazy { arguments?.getParcelable<ScreenList>(SCREEN_LIST_TO_EDIT) }
+
+    private lateinit var mAdView: AdView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +42,10 @@ class AddEditScreenListFragment : Fragment(){
         setupAccordingToEditMode(screenListToEdit)
         setupListener()
         setupMenu()
+        context?.let { MobileAds.initialize(it) }
+        mAdView = binding.adViewScreenListAddEdit
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     private fun setupAccordingToEditMode(screenList: ScreenList?) = with(binding) {
@@ -44,9 +53,8 @@ class AddEditScreenListFragment : Fragment(){
             viewModel.setupEditMode(id)
             editTextNameScreenAddEditList.setText(name)
             editTextDescriptionScreenAddEditList.setText(description)
-            toolbarListScreenEdit.title = getString(R.string.toolbar_title_edit)
-            textViewTitleAddEditList.setText(getString(R.string.textview_title_edit_list))
-            textViewDescriptionAddEditList.setText(getString(R.string.textview_description_edit))
+            toolbarListScreenEdit.title = getString(R.string.toolbar_title_edit_list)
+            textViewTitleAddEditList.setText("")
         }
     }
 

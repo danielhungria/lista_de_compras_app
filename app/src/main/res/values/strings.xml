@@ -1,20 +1,29 @@
 <resources>
     <string name="app_name">Cadê a Lista?</string>
-    <string name="delete_all_items_completed_dialog_title">Confirm deletion</string>
-    <string name="delete_all_items_completed_dialog_body_message">Do you really want to delete all completed items?</string>
-    <string name="cancel">Cancel</string>
-    <string name="yes">Yes</string>
+    <string name="delete_all_items_completed_dialog_title">Confirmar Exclusão</string>
+    <string name="delete_all_items_completed_dialog_body_message">Você realmente quer excluir todos os itens completados?</string>
+    <string name="cancel">Cancelar</string>
+    <string name="yes">Sim</string>
     <string name="textview_title_edit_list">Edite sua Lista</string>
     <string name="textview_title_edit_item">Edite seu Item</string>
-    <string name="toolbar_title_edit">Editar</string>
+    <string name="toolbar_title_edit">Edite seu Item</string>
+    <string name="toolbar_title_edit_list">Edite sua Lista</string>
     <string name="textview_description_edit">Escolha o nome e a descriçao</string>
     <string name="textview_description_edit_item">Escolha o nome, quantidade e preço</string>
-    <string name="add_item">Adicionar seu Item</string>
-    <string name="add_list">Adicionar sua Lista</string>
+    <string name="add_item">Informações do Item</string>
+    <string name="add_list">Escolha o nome e a descrição da Lista</string>
     <string name="toolbar_title_add">Adicionar</string>
     <string name="edit_text_hint_name">Nome</string>
     <string name="edit_text_hint_quantity">Quantidade</string>
     <string name="edit_text_hint_price">Preço</string>
     <string name="edit_text_hint_description">Descrição</string>
     <string name="total_market">Valor Total</string>
+    <string name="delete_all_completed">Excluir itens completados</string>
+    <string name="search_title_menu">Buscar</string>
+    <string name="edit_title">Editar</string>
+    <string name="delete_title">Excluir</string>
+    <string name="value_real">R$ 0,00</string>
+    <string name="ad_id_test">ca-app-pub-1398509773631594/6113438086</string>
+    <!-- ca-app-pub-3940256099942544/6300978111 -->
+    <!-- ca-app-pub-1398509773631594/6113438086 -->
 </resources>
