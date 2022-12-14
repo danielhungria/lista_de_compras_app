@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.listinha.R
 import com.example.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import com.example.listinha.databinding.FragmentAddEditScreenListBinding
+import com.example.listinha.extensions.toast
 import com.example.listinha.models.ScreenList
 import com.example.listinha.viewmodel.AddEditScreenListViewModel
 import com.google.android.gms.ads.AdRequest
@@ -28,24 +29,21 @@ class AddEditScreenListFragment : Fragment(){
 
     private lateinit var mAdView: AdView
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAddEditScreenListBinding.inflate(inflater, container, false)
-        return binding.root
+
+    private fun nameFocusListener() {
+        binding.editTextNameScreenAddEditList.setOnFocusChangeListener { _, focused ->
+            if (!focused){
+                binding.textInputNameScreenAddEditList.helperText = validName()
+            }
+        }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupAccordingToEditMode(screenListToEdit)
-        setupListener()
-        setupMenu()
-        context?.let { MobileAds.initialize(it) }
-        mAdView = binding.adViewScreenListAddEdit
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
+    private fun validName(): String? {
+        val editTextName = binding.editTextNameScreenAddEditList.text.toString()
+        if (editTextName.isBlank()){
+            return getString(R.string.insert_name_helper)
+        }
+        return null
     }
 
     private fun setupAccordingToEditMode(screenList: ScreenList?) = with(binding) {
@@ -61,13 +59,17 @@ class AddEditScreenListFragment : Fragment(){
     private fun setupListener() {
         with(binding){
             fabSaveScreenAddEditList.setOnClickListener {
-                viewModel.onSaveEvent(
-                    name = editTextNameScreenAddEditList.text.toString(),
-                    description = editTextDescriptionScreenAddEditList.text.toString(),
-                    closeScreen = {
-                        findNavController().popBackStack()
-                    }
-                )
+                if(validName()==null){
+                    viewModel.onSaveEvent(
+                        name = editTextNameScreenAddEditList.text.toString(),
+                        description = editTextDescriptionScreenAddEditList.text.toString(),
+                        closeScreen = {
+                            findNavController().popBackStack()
+                        }
+                    )
+                }else {
+                    context?.toast(getString(R.string.toast_required))
+                }
             }
         }
     }
@@ -77,4 +79,24 @@ class AddEditScreenListFragment : Fragment(){
         }
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentAddEditScreenListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        nameFocusListener()
+        setupAccordingToEditMode(screenListToEdit)
+        setupListener()
+        setupMenu()
+        context?.let { MobileAds.initialize(it) }
+        mAdView = binding.adViewScreenListAddEdit
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
+    }
 }

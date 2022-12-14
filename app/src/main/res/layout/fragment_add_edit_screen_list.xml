@@ -81,6 +81,8 @@
         android:layout_margin="20dp"
         app:startIconDrawable="@drawable/ic_baseline_text_description"
         app:endIconMode="clear_text"
+        app:helperText="@string/required_text"
+        app:helperTextTextColor="@color/red"
         >
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_text_name_screen_add_edit_list"
@@ -136,7 +138,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/adView_screen_list_add_edit"
         android:src="@drawable/ic_baseline_check_24"
-        android:backgroundTint="#40B629"
+        android:backgroundTint="@color/green"
         app:backgroundTint="@color/white"
         android:layout_margin="16dp"
         />
