@@ -81,6 +81,7 @@
         app:startIconDrawable="@drawable/ic_baseline_short_text_24"
         app:endIconMode="clear_text"
         app:helperText="@string/required_text"
+        app:errorEnabled="true"
         app:helperTextTextColor="@color/red"
         >
         <com.google.android.material.textfield.TextInputEditText

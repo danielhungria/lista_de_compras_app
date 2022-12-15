@@ -84,7 +84,9 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="30sp"
-            android:text="@string/value_real"/>
+            android:text="@string/value_real"
+            android:maxLines="1"
+            android:ellipsize="end"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

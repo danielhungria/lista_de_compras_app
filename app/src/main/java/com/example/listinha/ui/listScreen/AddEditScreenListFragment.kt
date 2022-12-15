@@ -30,12 +30,17 @@ class AddEditScreenListFragment : Fragment(){
     private lateinit var mAdView: AdView
 
 
-    private fun nameFocusListener() {
-        binding.editTextNameScreenAddEditList.setOnFocusChangeListener { _, focused ->
+    private fun nameFocusListener() = with(binding) {
+        editTextNameScreenAddEditList.setOnFocusChangeListener { _, focused ->
             if (!focused){
-                binding.textInputNameScreenAddEditList.helperText = validName()
+                textInputNameScreenAddEditList.helperText = validName()
+                if (validName()!=null){
+                    textInputNameScreenAddEditList.error = getString(R.string.insert_name_helper)
+                }else textInputNameScreenAddEditList.error = null
             }
+
         }
+
     }
 
     private fun validName(): String? {

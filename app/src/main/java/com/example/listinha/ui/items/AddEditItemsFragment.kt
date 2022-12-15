@@ -71,10 +71,13 @@ class AddEditItemsFragment : Fragment() {
         }
     }
 
-    private fun nameFocusListener() {
-        binding.editTextNameEdit.setOnFocusChangeListener { _, focused ->
+    private fun nameFocusListener() = with(binding) {
+        editTextNameEdit.setOnFocusChangeListener { _, focused ->
             if (!focused){
-                binding.inputEditTextNameEdit.helperText = validName()
+                inputEditTextNameEdit.helperText = validName()
+                if (validName()!=null){
+                    inputEditTextNameEdit.error = getString(R.string.insert_name_helper)
+                }else inputEditTextNameEdit.error = null
             }
         }
     }
