@@ -1,20 +1,28 @@
 package com.example.listinha.ui.items
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.listinha.R
 import com.example.listinha.databinding.ItemListBinding
-import com.example.listinha.extensions.*
+import com.example.listinha.extensions.formataParaMoedaBrasileira
+import com.example.listinha.extensions.isItalic
+import com.example.listinha.extensions.setCheckedSilent
+import com.example.listinha.extensions.showStrikeThrough
 import com.example.listinha.models.Item
 
 class ItemAdapter(
     val onComplete: (Boolean, Item) -> Unit,
-    val onClick:(Item) -> Unit
+    val onClick:(Item) -> Unit,
+    val onClickDelete:(Item) -> Unit
 ) : ListAdapter<Item, ItemAdapter.ItemViewHolder>(DiffCallback()), Filterable {
 
     private val customFilter = object : Filter() {
@@ -49,6 +57,30 @@ class ItemAdapter(
         it.name.lowercase().trim().contains(query.toString().lowercase().trim())
     }
 
+    private fun showMenu(
+        context: Context,
+        view: View,
+        menuPopupMenu: Int,
+        item: Item
+    ) {
+        val popup = PopupMenu(context, view)
+        popup.menuInflater.inflate(menuPopupMenu, popup.menu)
+        popup.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.edit_popup_menu -> {
+                    onClick(item)
+                    true
+                }
+                R.id.delete_popup_menu -> {
+                    onClickDelete(item)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
     override fun getFilter(): Filter {
         return customFilter
     }
@@ -74,6 +106,10 @@ class ItemAdapter(
                 }
                 root.setOnClickListener {
                     onClick(item)
+                }
+                root.setOnLongClickListener {
+                    showMenu(it.context, it ,R.menu.menu_popup_menu, item)
+                    true
                 }
                 textViewPrice.text = item.totalPrice.formataParaMoedaBrasileira()
                 textViewName.text = item.name

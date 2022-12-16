@@ -13,9 +13,10 @@
     <string name="add_item">Informações do Item</string>
     <string name="add_list">Escolha o nome e a descrição da Lista</string>
     <string name="toolbar_title_add">Adicionar</string>
-    <string name="edit_text_hint_name">Nome</string>
-    <string name="edit_text_hint_quantity">Quantidade</string>
-    <string name="edit_text_hint_price">Preço</string>
+    <string name="edit_text_hint_name">*Nome do Item</string>
+    <string name="edit_text_hint_name_list">*Nome da Lista</string>
+    <string name="edit_text_hint_quantity">Quantidade do Item</string>
+    <string name="edit_text_hint_price">Preço por und.</string>
     <string name="edit_text_hint_description">Descrição</string>
     <string name="total_market">Valor Total</string>
     <string name="delete_all_completed">Excluir itens completados</string>
@@ -23,7 +24,7 @@
     <string name="edit_title">Editar</string>
     <string name="delete_title">Excluir</string>
     <string name="value_real">R$ 0,00</string>
-    <string name="ad_id_test">ca-app-pub-1398509773631594/6113438086</string>
+    <string name="ad_id_test">ca-app-pub-3940256099942544/6300978111</string>
     <string name="toast_required">Preencha os campos obrigatórios</string>
     <string name="required_text">Campo Obrigatório</string>
     <string name="insert_name_helper">Insira um nome</string>

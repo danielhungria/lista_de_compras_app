@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.listinha.extensions.concatMoneySymbol
 import com.example.listinha.extensions.formataParaMoedaBrasileira
 import com.example.listinha.models.Item
 import com.example.listinha.repositories.ItemRepository
@@ -53,6 +52,12 @@ class ItemViewModel @Inject constructor(
     fun deleteAllItemsCompleted() {
         viewModelScope.launch {
             itemRepository.deleteCompletedItem()
+        }
+    }
+
+    fun delete(item: Item) {
+        viewModelScope.launch{
+            itemRepository.delete(item)
         }
     }
 }

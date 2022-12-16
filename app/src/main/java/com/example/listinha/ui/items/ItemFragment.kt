@@ -3,16 +3,14 @@ package com.example.listinha.ui.items
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +22,6 @@ import com.example.listinha.constants.Constants.SCREEN_LIST_ID
 import com.example.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import com.example.listinha.databinding.FragmentListBinding
 import com.example.listinha.extensions.navigateTo
-import com.example.listinha.models.Item
 import com.example.listinha.models.ScreenList
 import com.example.listinha.viewmodel.ItemViewModel
 import com.google.android.gms.ads.AdRequest
@@ -50,9 +47,13 @@ class ItemFragment : Fragment() {
             ITEM_TO_EDIT to it,
             SCREEN_LIST_ID to screenList?.id
         ))
-    })
+    }, onClickDelete = { item ->
+        viewModel.delete(item)
+    }
+    )
 
     private fun setupMenu() {
+        binding.toolbar.title = screenList?.name
         binding.toolbar.setOnMenuItemClickListener {
             when(it.itemId){
                 R.id.action_search -> {
