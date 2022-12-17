@@ -19,13 +19,15 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_list_screen"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Toolbar.">
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_list_screen"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:title="Suas Listas"
                 app:titleTextColor="@color/white"
+                app:titleCentered="true"
                 />
         </com.google.android.material.appbar.AppBarLayout>
     </com.google.android.material.card.MaterialCardView>
@@ -49,7 +51,7 @@
         android:layout_gravity="bottom|end"
         app:layout_constraintBottom_toTopOf="@+id/adView_screen_list"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="#40B629"
+        android:backgroundTint="#4FAAA2"
         app:backgroundTint="@color/white"
         app:icon="@drawable/ic_baseline_add_24"
         app:iconTint="@color/white"

@@ -34,7 +34,8 @@
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar_item_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            style="@style/Widget.Material3.Toolbar.">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar_item_edit"
@@ -44,6 +45,7 @@
                 app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24"
                 app:titleTextColor="@color/white"
                 app:navigationIconTint="@color/white"
+                app:titleCentered="true"
                 />
 
         </com.google.android.material.appbar.AppBarLayout>
@@ -158,7 +160,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/adView_item_list_add_edit"
-        android:backgroundTint="#40B629"
+        android:backgroundTint="#4FAAA2"
         app:backgroundTint="@color/white"
         android:layout_margin="16dp"
         app:icon="@drawable/ic_baseline_check_24"

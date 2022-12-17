@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="15dp"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="#168F84"
         app:cardCornerRadius="25dp"
         style="?attr/materialCardViewElevatedStyle"
         app:cardElevation="2dp"

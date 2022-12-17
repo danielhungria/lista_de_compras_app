@@ -3,6 +3,7 @@ package com.example.listinha.models
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.listinha.extensions.formataParaMoedaBrasileira
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "item_table")
@@ -30,4 +31,13 @@ data class Item(
         get() {
             return price.toDoubleOrNull()
         }
+
+    val textViewQuantity: String
+    get(){
+        return if (quantity.isNotBlank() && price.isNotBlank()){
+            "$quantity X ${price.toDouble().formataParaMoedaBrasileira()}"
+        }else if(quantity.isNotBlank()){
+            "$quantity und."
+        }else ""
+    }
 }

@@ -115,11 +115,7 @@ class ItemAdapter(
                 textViewName.text = item.name
                 textViewName.showStrikeThrough(item.completed)
                 textViewName.isItalic(item.completed)
-                val itemQuantity = item.quantity
-                val itemPrice = item.price
-                if (itemQuantity.isNotBlank() && itemPrice.isNotBlank()){
-                    textViewQuantity.text = "${item.quantity} X ${item.priceFormat.formataParaMoedaBrasileira()}"
-                }
+                textViewQuantity.text = item.textViewQuantity
                 checkBox.setCheckedSilent(item.completed, checkBoxListener)
                 checkBox.setOnCheckedChangeListener(checkBoxListener)
             }
