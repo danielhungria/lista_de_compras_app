@@ -8,10 +8,18 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/daniel/Desktop/Program/Android/Daniel/keystore')
+            storePassword 'Akira01@'
+            keyAlias 'keystore'
+            keyPassword 'Akira01@'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.listinha"
+        applicationId "br.com.cadealista.listinha"
         minSdk 21
         targetSdk 32
         versionCode 1

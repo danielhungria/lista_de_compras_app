@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/itemFragment"
-        android:name="com.example.listinha.ui.items.ItemFragment"
+        android:name="br.com.cadealista.listinha.ui.items.ItemFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" >
         <action
@@ -17,12 +17,12 @@
 
     <fragment
         android:id="@+id/editItemsFragment"
-        android:name="com.example.listinha.ui.items.AddEditItemsFragment"
+        android:name="br.com.cadealista.listinha.ui.items.AddEditItemsFragment"
         android:label="EditItemsFragment" />
 
     <fragment
         android:id="@+id/screeListFragment"
-        android:name="com.example.listinha.ui.listScreen.ScreenListFragment"
+        android:name="br.com.cadealista.listinha.ui.listScreen.ScreenListFragment"
         android:label="ScreenListFragment">
         <action
             android:id="@+id/action_screenListFragment_to_itemFragment"
@@ -34,6 +34,6 @@
 
     <fragment
         android:id="@+id/screenListAddEditFragment"
-        android:name="com.example.listinha.ui.listScreen.AddEditScreenListFragment"
+        android:name="br.com.cadealista.listinha.ui.listScreen.AddEditScreenListFragment"
         android:label="AddEditScreenListFragment"/>
 </navigation>

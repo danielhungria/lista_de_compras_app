@@ -33,5 +33,13 @@
         android:textStyle="bold"
         android:textAlignment="center"
         />
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/textviewnamesplash"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/icon_cade_a_lista"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
