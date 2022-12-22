@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "775994460071",
+    "project_id": "minhasortecrashlytics",
+    "storage_bucket": "minhasortecrashlytics.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775994460071:android:31b7588e1e2cb495ff5882",
+        "android_client_info": {
+          "package_name": "br.com.cadealista.listinha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775994460071-8hrer025407vqv1bhvv4r3i315ai0hrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwk-DvDBIWU0Zqbt49m7qyzbs-s87iXmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775994460071-8hrer025407vqv1bhvv4r3i315ai0hrm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775994460071:android:200cbea28f90dd15ff5882",
+        "android_client_info": {
+          "package_name": "br.com.minhasortemegasena"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775994460071-8hrer025407vqv1bhvv4r3i315ai0hrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwk-DvDBIWU0Zqbt49m7qyzbs-s87iXmw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775994460071-8hrer025407vqv1bhvv4r3i315ai0hrm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
