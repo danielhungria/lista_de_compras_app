@@ -1,20 +1,26 @@
 package br.com.cadealista.listinha.ui.listScreen
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import br.com.cadealista.listinha.BuildConfig
 import br.com.cadealista.listinha.R
+import br.com.cadealista.listinha.constants.Constants
 import br.com.cadealista.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import br.com.cadealista.listinha.databinding.FragmentListScreenBinding
 import br.com.cadealista.listinha.extensions.navigateTo
@@ -23,7 +29,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.jar.Manifest
+import java.io.File
 
 @AndroidEntryPoint
 class ScreenListFragment : Fragment() {
@@ -49,8 +55,24 @@ class ScreenListFragment : Fragment() {
     }, longPressDelete = { screenList ->
         viewModel.delete(screenList)
     },
-        sharePress = {
-            viewModel.exportData(it)
+        sharePress = { screenListId ->
+            viewModel.exportData(
+                screenListId,
+                onSuccess = { file ->
+                    val sendIntent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_STREAM, context?.let {
+                            FileProvider.getUriForFile(
+                                it,
+                                BuildConfig.APPLICATION_ID + ".provider",
+                                file
+                            )
+                        })
+                    }
+                    startActivity(sendIntent)
+                }, onError = {
+                    Toast.makeText(context, "ERROR EXPORTAR DADO", Toast.LENGTH_LONG).show()
+                })
             Log.i("Fragment", "pressionado compartilhar")
         }
     )
@@ -85,9 +107,6 @@ class ScreenListFragment : Fragment() {
 //        createDefaultList(booleanCreatedList)
         viewModel.screenLists.observe(viewLifecycleOwner) {
             screenListAdapter.updateList(it)
-        }
-        viewModel.exportedData.observe(viewLifecycleOwner) {
-            Log.i("Fragment", "onViewCreated: $it")
         }
         viewModel.fetchScreenList()
         context?.let { MobileAds.initialize(it) }

@@ -12,7 +12,10 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+
+
     <application
+
         android:name=".application.ItemApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -31,36 +34,28 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.cadealista"
-                    android:scheme="content"
-                    />
-            </intent-filter>
-            <intent-filter >
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.OPENABLE" />
-                <data
-                    android:mimeType="application/octet-stream"
-                    android:scheme="content"
-                    />
             </intent-filter>
         </activity>
 
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.cadealista"
+                    android:scheme="content"
+                    />
+                <data
+                    android:mimeType="application/octet-stream"
+                    android:scheme="content"/>
+            </intent-filter>
         </activity>
 
         <!-- Sample AdMob app ID: ca-app-pub-1398509773631594/6113438086 -->
@@ -68,6 +63,15 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1398509773631594~2752815569"/>
 
+        <provider
+            android:authorities="br.com.cadealista.listinha.provider"
+            android:name="androidx.core.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path"/>
+        </provider>
     </application>
 
 </manifest>

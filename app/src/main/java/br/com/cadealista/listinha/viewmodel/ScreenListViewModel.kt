@@ -1,10 +1,12 @@
 package br.com.cadealista.listinha.viewmodel
 
 import android.os.Environment
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.cadealista.listinha.constants.Constants
 import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.repositories.ItemRepository
@@ -14,7 +16,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileWriter
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,15 +51,20 @@ class ScreenListViewModel @Inject constructor(
         screenListRepository.delete(screenList)
     }
 
-    fun exportData(id: Int) {
+    fun exportData(id: Int, onSuccess: (exportedFile: File) -> Unit, onError: () -> Unit) {
         viewModelScope.launch {
-            val screenList = _screenLists.value?.firstOrNull { it.id == id }
-            itemRepository.getAllItemsOfList(id).collect { itemList ->
-                screenList?.let {
-                    val exportData = ExportedList(itemList, it)
-                    createFile(exportData)
-                    _exportedData.postValue(Gson().toJson(exportData))
+            try {
+                val screenList = _screenLists.value?.firstOrNull { it.id == id }
+                itemRepository.getAllItemsOfList(id).collect { itemList ->
+                    screenList?.let { screenList ->
+                        val exportData = ExportedList(itemList, screenList)
+                        _exportedData.postValue(Gson().toJson(exportData))
+                        createFile(exportData, onSuccess = { onSuccess(it) })
+                    }
                 }
+            } catch (e: Exception) {
+                onError()
+                Log.e("ScreenListViewModel", e.toString())
             }
         }
 
@@ -78,23 +84,20 @@ class ScreenListViewModel @Inject constructor(
         }
     }
 
-    fun createFile(exportedList: ExportedList) {
-        try {
-            val directory = File(
-                Environment.getExternalStorageDirectory().absolutePath +
-                        File.separator + "Cadê a Lista?" + File.separator + "Exported files"
-            )
-            val exportFileExtension = ".cadealista"
-            val exportFile = File(directory, exportedList.screenList.name + exportFileExtension)
-            if (!directory.exists()) directory.mkdirs()
-            exportFile.createNewFile()
-            val writer = FileWriter(exportFile, true)
-            writer.append(Gson().toJson(exportedList))
-            writer.flush()
-            writer.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
+    private fun createFile(exportedList: ExportedList, onSuccess: (exportedFile: File) -> Unit) {
+        val directory = File(
+            Environment.getExternalStorageDirectory().absolutePath +
+                    Constants.EXPORT_DATA_PATH
+        )
+        val exportFile =
+            File(directory, exportedList.screenList.name + Constants.EXPORT_DATA_FILE_EXTENSION)
+        if (!directory.exists()) directory.mkdirs()
+        exportFile.createNewFile()
+        val writer = FileWriter(exportFile, true)
+        writer.append(Gson().toJson(exportedList))
+        writer.flush()
+        writer.close()
+        onSuccess(exportFile)
     }
 
 }
