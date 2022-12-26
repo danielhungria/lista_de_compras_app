@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.cadealista.listinha.R
 import br.com.cadealista.listinha.databinding.CardviewListScreenBinding
+import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.models.ScreenList
 
 
 class ScreenListAdapter(
     val onClick: (ScreenList) -> Unit,
     val longPress: (ScreenList) -> Unit,
-    val longPressDelete: (ScreenList) -> Unit
+    val longPressDelete: (ScreenList) -> Unit,
+    val sharePress: (id: Int) -> Unit
 ) : ListAdapter<ScreenList, ScreenListAdapter.ListViewHolder>(DiffCallback()) {
 
     private var fullList = mutableListOf<ScreenList>()
@@ -63,6 +65,10 @@ class ScreenListAdapter(
                 }
                 R.id.delete_popup_menu -> {
                     longPressDelete(screenList)
+                    true
+                }
+                R.id.shared_popup_menu -> {
+                    sharePress(screenList.id)
                     true
                 }
                 else -> false

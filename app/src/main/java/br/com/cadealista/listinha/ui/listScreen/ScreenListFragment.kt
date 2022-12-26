@@ -1,6 +1,7 @@
 package br.com.cadealista.listinha.ui.listScreen
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +30,8 @@ class ScreenListFragment : Fragment() {
 
     private lateinit var mAdView: AdView
 
+    private var booleanCreatedList: Boolean = true
+
     private val screenListAdapter = ScreenListAdapter(onClick = {
         navigateTo(
             R.id.action_screenListFragment_to_itemFragment,
@@ -41,13 +44,18 @@ class ScreenListFragment : Fragment() {
         )
     }, longPressDelete = { screenList ->
         viewModel.delete(screenList)
-    })
+    },
+        sharePress = {
+        viewModel.exportData(it)
+            Log.i("Fragment", "pressionado compartilhar")
+    }
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentListScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -56,17 +64,34 @@ class ScreenListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerViewScreenList()
         setupFab()
+//        setupFabRecovery()
         setupItemTouchHelper()
+//        createDefaultList(booleanCreatedList)
         viewModel.screenLists.observe(viewLifecycleOwner) {
             screenListAdapter.updateList(it)
+        }
+        viewModel.exportedData.observe(viewLifecycleOwner){
+            Log.i("Fragment", "onViewCreated: $it")
         }
         viewModel.fetchScreenList()
         context?.let { MobileAds.initialize(it) }
         mAdView = binding.adViewScreenList
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
-
     }
+
+//    private fun setupFabRecovery() {
+//        binding.recoveryList.setOnClickListener {
+////            booleanCreatedList = true
+//        }
+//    }
+
+//    private fun createDefaultList(boolean: Boolean) {
+//        if (boolean){
+//            viewModel.insertExampleList()
+//            booleanCreatedList = false
+//        }
+//    }
 
     private fun setupFab() {
         binding.fabAddListScreen.setOnClickListener {
