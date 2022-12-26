@@ -1,6 +1,8 @@
 package br.com.cadealista.listinha.viewmodel
 
+import android.os.Environment
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +16,9 @@ import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,25 +56,14 @@ class ScreenListViewModel @Inject constructor(
 
     fun exportData(id: Int){
         viewModelScope.launch {
-            val list = mutableListOf<Item>()
-            Log.i("Fragment", "mutablelista: $list")
-            itemRepository.getAllItemsOfList(id).collect{
-                list.addAll(it)
-                Log.i("Fragment", "getall: $it")
-
+            val screenList = _screenLists.value?.firstOrNull { it.id == id }
+            itemRepository.getAllItemsOfList(id).collect { itemList ->
+                screenList?.let {
+                    val exportData = ExportedList(itemList, it)
+                    createFile(exportData)
+                    _exportedData.postValue(Gson().toJson(exportData))
+                }
             }
-            val screenList = screenLists.value?.filter {
-                Log.i("Fragment", "screenlist: $it")
-                it.id == id
-            }
-            val exportedList = screenList?.let {
-                ExportedList(
-                    list,
-                    it
-                )
-            }
-            _exportedData.postValue(Gson().toJson(exportedList))
-            Log.i("Fragment", "exportData: $exportedList")
         }
 
     }
@@ -85,5 +79,25 @@ class ScreenListViewModel @Inject constructor(
              screenListRepository.insert(screenList3)
          }
      }
+
+    fun createFile(exportedList: ExportedList){
+        try {
+            val root = File(
+                Environment.getExternalStorageDirectory().toString(),
+                "Cade a Lista/Exported Files"
+            )
+            if (!root.exists()) {
+                root.mkdirs()
+                root.createNewFile()
+            }
+            val gpxfile = File(root, exportedList.screenList.name)
+            val writer = FileWriter(gpxfile, true)
+            writer.append(Gson().toJson(exportedList))
+            writer.flush()
+            writer.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
 
 }

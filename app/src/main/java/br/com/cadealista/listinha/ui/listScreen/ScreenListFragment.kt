@@ -1,10 +1,13 @@
 package br.com.cadealista.listinha.ui.listScreen
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -20,6 +23,7 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.jar.Manifest
 
 @AndroidEntryPoint
 class ScreenListFragment : Fragment() {
@@ -30,7 +34,7 @@ class ScreenListFragment : Fragment() {
 
     private lateinit var mAdView: AdView
 
-    private var booleanCreatedList: Boolean = true
+//    private var booleanCreatedList: Boolean = true
 
     private val screenListAdapter = ScreenListAdapter(onClick = {
         navigateTo(
@@ -62,6 +66,15 @@ class ScreenListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val permissions = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+             if (context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                 activity?.let { ActivityCompat.requestPermissions(it,permissions,100) }
+             }
+            } else {
+                TODO("VERSION.SDK_INT < M")
+            }
+
         setupRecyclerViewScreenList()
         setupFab()
 //        setupFabRecovery()
@@ -81,8 +94,8 @@ class ScreenListFragment : Fragment() {
     }
 
 //    private fun setupFabRecovery() {
-//        binding.recoveryList.setOnClickListener {
-////            booleanCreatedList = true
+//        binding.resgateLista.setOnClickListener {
+//            booleanCreatedList = true
 //        }
 //    }
 
