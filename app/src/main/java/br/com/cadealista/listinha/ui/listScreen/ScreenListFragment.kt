@@ -50,9 +50,9 @@ class ScreenListFragment : Fragment() {
         viewModel.delete(screenList)
     },
         sharePress = {
-        viewModel.exportData(it)
+            viewModel.exportData(it)
             Log.i("Fragment", "pressionado compartilhar")
-    }
+        }
     )
 
     override fun onCreateView(
@@ -66,14 +66,17 @@ class ScreenListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val permissions = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-             if (context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                 activity?.let { ActivityCompat.requestPermissions(it,permissions,100) }
-             }
-            } else {
-                TODO("VERSION.SDK_INT < M")
+        val permissions = arrayOf(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE
+        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context?.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                context?.checkSelfPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            ) {
+                activity?.let { ActivityCompat.requestPermissions(it, permissions, 100) }
             }
+        }
 
         setupRecyclerViewScreenList()
         setupFab()
@@ -83,7 +86,7 @@ class ScreenListFragment : Fragment() {
         viewModel.screenLists.observe(viewLifecycleOwner) {
             screenListAdapter.updateList(it)
         }
-        viewModel.exportedData.observe(viewLifecycleOwner){
+        viewModel.exportedData.observe(viewLifecycleOwner) {
             Log.i("Fragment", "onViewCreated: $it")
         }
         viewModel.fetchScreenList()
