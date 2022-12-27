@@ -2,6 +2,7 @@ package br.com.cadealista.listinha.util
 
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -21,6 +22,7 @@ object Utils {
                     text.append(line)
                     text.append("\n")
                 }
+                Log.i("Import", "getExportDataFileContent: $text")
             }
         }
     }
