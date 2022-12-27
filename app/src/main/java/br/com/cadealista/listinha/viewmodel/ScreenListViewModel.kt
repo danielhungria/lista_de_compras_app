@@ -1,7 +1,10 @@
 package br.com.cadealista.listinha.viewmodel
 
+import android.content.Context
+import android.os.Build
 import android.os.Environment
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -51,7 +54,12 @@ class ScreenListViewModel @Inject constructor(
         screenListRepository.delete(screenList)
     }
 
-    fun exportData(id: Int, onSuccess: (exportedFile: File) -> Unit, onError: () -> Unit) {
+    fun exportData(
+        id: Int,
+        onSuccess: (exportedFile: File) -> Unit,
+        onError: () -> Unit,
+        context: Context
+    ) {
         viewModelScope.launch {
             try {
                 val screenList = _screenLists.value?.firstOrNull { it.id == id }
@@ -59,7 +67,7 @@ class ScreenListViewModel @Inject constructor(
                     screenList?.let { screenList ->
                         val exportData = ExportedList(itemList, screenList)
                         _exportedData.postValue(Gson().toJson(exportData))
-                        createFile(exportData, onSuccess = { onSuccess(it) })
+                        createFile(exportData, onSuccess = { onSuccess(it) }, context)
                     }
                 }
             } catch (e: Exception) {
@@ -70,28 +78,29 @@ class ScreenListViewModel @Inject constructor(
 
     }
 
-    fun insertExampleList() {
-        viewModelScope.launch {
-            //um problema fazer desse jeito, pois a pessoa pode ter uma lista com esse ID, Nao da pra atualizar infos tb
-            val screenList1 = ScreenList(id = 1, name = "Mercado", description = "Compras do mês")
-            val screenList2 =
-                ScreenList(id = 2, name = "Aniversário", description = "Festa do Alex")
-            val screenList3 =
-                ScreenList(id = 3, name = "Churras", description = "Churrasco do domingão")
-            screenListRepository.insert(screenList1)
-            screenListRepository.insert(screenList2)
-            screenListRepository.insert(screenList3)
-        }
-    }
+//    fun insertExampleList() {
+//        viewModelScope.launch {
+//            //um problema fazer desse jeito, pois a pessoa pode ter uma lista com esse ID, Nao da pra atualizar infos tb
+//            val screenList1 = ScreenList(id = 1, name = "Mercado", description = "Compras do mês")
+//            val screenList2 =
+//                ScreenList(id = 2, name = "Aniversário", description = "Festa do Alex")
+//            val screenList3 =
+//                ScreenList(id = 3, name = "Churras", description = "Churrasco do domingão")
+//            screenListRepository.insert(screenList1)
+//            screenListRepository.insert(screenList2)
+//            screenListRepository.insert(screenList3)
+//        }
+//    }
 
-    private fun createFile(exportedList: ExportedList, onSuccess: (exportedFile: File) -> Unit) {
+    private fun createFile(exportedList: ExportedList, onSuccess: (exportedFile: File) -> Unit, context: Context) {
         val directory = File(
-            Environment.getExternalStorageDirectory().absolutePath +
-                    Constants.EXPORT_DATA_PATH
+            context.filesDir, "lists"
         )
+        if (!directory.exists()) directory.mkdirs()
+
         val exportFile =
             File(directory, exportedList.screenList.name + Constants.EXPORT_DATA_FILE_EXTENSION)
-        if (!directory.exists()) directory.mkdirs()
+
         exportFile.createNewFile()
         val writer = FileWriter(exportFile, true)
         writer.append(Gson().toJson(exportedList))

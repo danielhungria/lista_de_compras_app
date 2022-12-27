@@ -12,10 +12,7 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-
-
     <application
-
         android:name=".application.ItemApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -43,18 +40,18 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.PICK" />
                 <category android:name="android.intent.category.OPENABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.cadealista"
-                    android:scheme="content"
-                    />
-                <data
-                    android:mimeType="application/octet-stream"
-                    android:scheme="content"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="text/plain"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:mimeType="*/*"/>
             </intent-filter>
         </activity>
 
@@ -64,7 +61,7 @@
             android:value="ca-app-pub-1398509773631594~2752815569"/>
 
         <provider
-            android:authorities="br.com.cadealista.listinha.provider"
+            android:authorities="br.com.cadealista.listinha.fileprovider"
             android:name="androidx.core.content.FileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
