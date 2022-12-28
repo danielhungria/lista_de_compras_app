@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -16,8 +18,10 @@ import br.com.cadealista.listinha.R
 import br.com.cadealista.listinha.databinding.ActivityMainBinding
 import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.util.Utils
+import br.com.cadealista.listinha.viewmodel.ScreenListViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import org.json.JSONObject
 import java.io.StringReader
 import java.nio.charset.StandardCharsets
 
@@ -29,6 +33,9 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private val viewModelScreenList: ScreenListViewModel by viewModels()
+
+
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +44,11 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
-        checkHasDataToImport()
+        when (intent.action) {
+            Intent.ACTION_SEND -> {
+                viewModelScreenList.checkHasDataToImport(this, intent)
+            }
+        }
     }
 
 
@@ -45,28 +56,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
-    private fun checkHasDataToImport() {
-        try {
-            intent?.run {
-                val bufferedReader =
-                    contentResolver.openInputStream(
-                        intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as Uri
-                    )?.readBytes()
-                val readText = StringReader(bufferedReader?.let {
-                    String(
-                        it,
-                        StandardCharsets.UTF_8
-                    )
-                }).readText()
-                Log.i("Main", "checkHasDataToImport: $readText")
-                Toast.makeText(this@MainActivity, readText, Toast.LENGTH_LONG).show()
-                //teste
-                val fromJson = Gson().fromJson(readText.trim(), ExportedList::class.java)
-
-            }
-
-        } catch (e: Exception) {
-            Log.d("MainActivity", "Cannot import data")
-        }
-    }
 }

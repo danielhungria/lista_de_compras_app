@@ -3,15 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/shared_popup_menu"
-        android:title="Compartilhar"
-    />
-    <item
-        android:id="@+id/edit_popup_menu"
+        android:id="@+id/edit_popup_menu_item"
         android:title="@string/edit_title"
         />
     <item
-        android:id="@+id/delete_popup_menu"
+        android:id="@+id/delete_popup_menu_item"
         android:title="@string/delete_title"
         />
 

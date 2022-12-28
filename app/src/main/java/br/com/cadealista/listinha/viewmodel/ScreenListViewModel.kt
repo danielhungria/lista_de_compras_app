@@ -1,9 +1,13 @@
 package br.com.cadealista.listinha.viewmodel
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.Parcelable
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,9 +20,14 @@ import br.com.cadealista.listinha.repositories.ItemRepository
 import br.com.cadealista.listinha.repositories.ScreenListRepository
 import com.google.gson.Gson
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import java.io.File
 import java.io.FileWriter
+import java.io.StringReader
+import java.nio.charset.StandardCharsets
 import javax.inject.Inject
 
 @HiltViewModel
@@ -107,6 +116,34 @@ class ScreenListViewModel @Inject constructor(
         writer.flush()
         writer.close()
         onSuccess(exportFile)
+    }
+
+     fun checkHasDataToImport(context: Context, intent: Intent) {
+        try {
+            intent.run {
+                val bufferedReader =
+                    context.contentResolver.openInputStream(
+                        intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as Uri
+                    )?.readBytes()
+                val readText = StringReader(bufferedReader?.let {
+                    String(
+                        it,
+                        StandardCharsets.UTF_8
+                    )
+                }).readText()
+                val json = JSONObject(readText).toString()
+                val fromJson = Gson().fromJson(json, ExportedList::class.java)
+                viewModelScope.launch {
+                    screenListRepository.insert(fromJson.screenList)
+                    fromJson.listItem.forEach {
+                        itemRepository.insert(it)
+                    }
+                }
+            }
+            Toast.makeText(context, "Lista importada com sucesso", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Falha ao importar lista", Toast.LENGTH_LONG).show()
+        }
     }
 
 }

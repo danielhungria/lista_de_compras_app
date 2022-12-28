@@ -67,11 +67,11 @@ class ItemAdapter(
         popup.menuInflater.inflate(menuPopupMenu, popup.menu)
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.edit_popup_menu -> {
+                R.id.edit_popup_menu_item -> {
                     onClick(item)
                     true
                 }
-                R.id.delete_popup_menu -> {
+                R.id.delete_popup_menu_item -> {
                     onClickDelete(item)
                     true
                 }
@@ -108,7 +108,7 @@ class ItemAdapter(
                     onClick(item)
                 }
                 root.setOnLongClickListener {
-                    showMenu(it.context, it , R.menu.menu_popup_menu, item)
+                    showMenu(it.context, it , R.menu.menu_popup_item, item)
                     true
                 }
                 textViewPrice.text = item.totalPrice.formataParaMoedaBrasileira()
