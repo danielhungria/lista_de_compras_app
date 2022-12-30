@@ -46,8 +46,8 @@ class ScreenListFragment : Fragment() {
         viewModel.delete(screenList)
     },
         sharePress = {
-        viewModel.exportData(it)
-            Log.i("Fragment", "pressionado compartilhar")
+//        viewModel.exportData(it)
+//            Log.i("Fragment", "pressionado compartilhar")
     }
     )
 

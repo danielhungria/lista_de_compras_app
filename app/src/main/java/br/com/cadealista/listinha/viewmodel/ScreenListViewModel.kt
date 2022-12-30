@@ -49,30 +49,30 @@ class ScreenListViewModel @Inject constructor(
         screenListRepository.delete(screenList)
     }
 
-    fun exportData(id: Int){
-        viewModelScope.launch {
-            val list = mutableListOf<Item>()
-            Log.i("Fragment", "mutablelista: $list")
-            itemRepository.getAllItemsOfList(id).collect{
-                list.addAll(it)
-                Log.i("Fragment", "getall: $it")
-
-            }
-            val screenList = screenLists.value?.filter {
-                Log.i("Fragment", "screenlist: $it")
-                it.id == id
-            }
-            val exportedList = screenList?.let {
-                ExportedList(
-                    list,
-                    it
-                )
-            }
-            _exportedData.postValue(Gson().toJson(exportedList))
-            Log.i("Fragment", "exportData: $exportedList")
-        }
-
-    }
+//    fun exportData(id: Int){
+//        viewModelScope.launch {
+//            val list = mutableListOf<Item>()
+//            Log.i("Fragment", "mutablelista: $list")
+//            itemRepository.getAllItemsOfList(id).collect{
+//                list.addAll(it)
+//                Log.i("Fragment", "getall: $it")
+//
+//            }
+//            val screenList = screenLists.value?.filter {
+//                Log.i("Fragment", "screenlist: $it")
+//                it.id == id
+//            }
+//            val exportedList = screenList?.let {
+//                ExportedList(
+//                    list,
+//                    it
+//                )
+//            }
+//            _exportedData.postValue(Gson().toJson(exportedList))
+//            Log.i("Fragment", "exportData: $exportedList")
+//        }
+//
+//    }
 
      fun insertExampleList(){
          viewModelScope.launch {

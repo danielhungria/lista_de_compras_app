@@ -36,10 +36,23 @@
             android:windowSoftInputMode="adjustResize">
         </activity>
 
+        <service
+            android:name=".firebase.MyFirebaseMessagingService"
+            android:exported="false"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <!-- Sample AdMob app ID: ca-app-pub-1398509773631594/6113438086 -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1398509773631594~2752815569"/>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/icon_cade_a_lista" />
 
     </application>
 
