@@ -22,6 +22,7 @@ import br.com.cadealista.listinha.viewmodel.ScreenListViewModel
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
+import java.io.InputStream
 import java.io.StringReader
 import java.nio.charset.StandardCharsets
 
@@ -35,6 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModelScreenList: ScreenListViewModel by viewModels()
 
+    private var inputStream: InputStream? = null
 
     private lateinit var navController: NavController
 
@@ -46,11 +48,20 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.findNavController()
         when (intent.action) {
             Intent.ACTION_SEND -> {
-                viewModelScreenList.checkHasDataToImport(this, intent)
+                (intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as? Uri)?.let { uri ->
+                    inputStream = contentResolver.openInputStream(uri)
+                    inputStream?.readBytes()?.run {
+                        viewModelScreenList.importData(this, {}, {})
+                    }
+                }
             }
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        inputStream?.close()
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

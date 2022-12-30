@@ -1,5 +1,6 @@
 package br.com.cadealista.listinha.ui.listScreen
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -16,6 +17,7 @@ import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +32,7 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
+import java.io.InputStream
 
 @AndroidEntryPoint
 class ScreenListFragment : Fragment() {
@@ -56,33 +59,36 @@ class ScreenListFragment : Fragment() {
         viewModel.delete(screenList)
     },
         sharePress = { screenListId ->
-            context?.let {
                 viewModel.exportData(
                     screenListId,
                         onSuccess = { file ->
-                        val sendIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            type = "text/plain"
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            putExtra(Intent.EXTRA_STREAM, context?.let {
-                                FileProvider.getUriForFile(
-                                    it,
-                                    BuildConfig.APPLICATION_ID + ".fileprovider",
-                                    file
-                                )
-                            }
-                            )
-                        }
-                        startActivity(Intent.createChooser(sendIntent, "Sharing"))
-                    }, onError = {
+                            handleText(file)
+                        }, onError = {
                         Toast.makeText(context, "ERROR EXPORTAR DADO", Toast.LENGTH_LONG).show()
-                    }, context = it
+                    }, context = requireContext()
                 )
-            }
+
 
             Log.i("Fragment", "pressionado compartilhar")
         }
     )
+
+    private fun handleText(file: File) {
+        val sendIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "text/plain"
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            putExtra(Intent.EXTRA_STREAM, context?.let {
+                FileProvider.getUriForFile(
+                    it,
+                    BuildConfig.APPLICATION_ID + ".fileprovider",
+                    file
+                )
+            }
+            )
+        }
+        startActivity(Intent.createChooser(sendIntent, "Sharing"))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -120,7 +126,10 @@ class ScreenListFragment : Fragment() {
         mAdView = binding.adViewScreenList
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+
     }
+
+
 
 //    private fun setupFabRecovery() {
 //        binding.resgateLista.setOnClickListener {

@@ -18,7 +18,10 @@ import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.repositories.ItemRepository
 import br.com.cadealista.listinha.repositories.ScreenListRepository
+import com.google.gson.ExclusionStrategy
+import com.google.gson.FieldAttributes
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.forEach
@@ -69,13 +72,17 @@ class ScreenListViewModel @Inject constructor(
         onError: () -> Unit,
         context: Context
     ) {
+
         viewModelScope.launch {
             try {
                 val screenList = _screenLists.value?.firstOrNull { it.id == id }
                 itemRepository.getAllItemsOfList(id).collect { itemList ->
                     screenList?.let { screenList ->
                         val exportData = ExportedList(itemList, screenList)
-                        _exportedData.postValue(Gson().toJson(exportData))
+                        val gson = GsonBuilder()
+                            .excludeFieldsWithoutExposeAnnotation()
+                            .create()
+                        _exportedData.postValue(gson.toJson(exportData))
                         createFile(exportData, onSuccess = { onSuccess(it) }, context)
                     }
                 }
@@ -101,7 +108,11 @@ class ScreenListViewModel @Inject constructor(
 //        }
 //    }
 
-    private fun createFile(exportedList: ExportedList, onSuccess: (exportedFile: File) -> Unit, context: Context) {
+    private fun createFile(
+        exportedList: ExportedList,
+        onSuccess: (exportedFile: File) -> Unit,
+        context: Context
+    ) {
         val directory = File(
             context.filesDir, "lists"
         )
@@ -112,38 +123,34 @@ class ScreenListViewModel @Inject constructor(
 
         exportFile.createNewFile()
         val writer = FileWriter(exportFile, true)
-        writer.append(Gson().toJson(exportedList))
+        val gson = GsonBuilder()
+            .excludeFieldsWithoutExposeAnnotation()
+            .create()
+        writer.append(gson.toJson(exportedList))
         writer.flush()
         writer.close()
         onSuccess(exportFile)
     }
 
-     fun checkHasDataToImport(context: Context, intent: Intent) {
-        try {
-            intent.run {
-                val bufferedReader =
-                    context.contentResolver.openInputStream(
-                        intent.getParcelableExtra<Parcelable>(Intent.EXTRA_STREAM) as Uri
-                    )?.readBytes()
-                val readText = StringReader(bufferedReader?.let {
-                    String(
-                        it,
-                        StandardCharsets.UTF_8
-                    )
-                }).readText()
+    fun importData(bytesArray: ByteArray, onSuccess: () -> Unit, onError: () -> Unit) {
+        viewModelScope.launch {
+            try {
+                val stringOfBytesArray = String(bytesArray, StandardCharsets.UTF_8)
+                val readText = StringReader(stringOfBytesArray).readText()
                 val json = JSONObject(readText).toString()
                 val fromJson = Gson().fromJson(json, ExportedList::class.java)
-                viewModelScope.launch {
-                    screenListRepository.insert(fromJson.screenList)
+
+                screenListRepository.insert(fromJson.screenList)?.let { screenListId ->
                     fromJson.listItem.forEach {
-                        itemRepository.insert(it)
+                        itemRepository.insert(it.copy(idList = screenListId.toInt()))
                     }
                 }
+                onSuccess()
+            } catch (e: Exception) {
+                onError()
             }
-            Toast.makeText(context, "Lista importada com sucesso", Toast.LENGTH_LONG).show()
-        } catch (e: Exception) {
-            Toast.makeText(context, "Falha ao importar lista", Toast.LENGTH_LONG).show()
         }
     }
 
 }
+
