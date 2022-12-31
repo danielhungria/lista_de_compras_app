@@ -1,30 +1,24 @@
 package br.com.cadealista.listinha.viewmodel
 
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.os.Parcelable
 import android.util.Log
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.cadealista.listinha.constants.Constants
 import br.com.cadealista.listinha.models.ExportedList
+import br.com.cadealista.listinha.models.Item
 import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.repositories.ItemRepository
 import br.com.cadealista.listinha.repositories.ScreenListRepository
-import com.google.gson.ExclusionStrategy
-import com.google.gson.FieldAttributes
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.File
@@ -46,7 +40,6 @@ class ScreenListViewModel @Inject constructor(
     private val _exportedData = MutableLiveData<String>()
     val exportedData: LiveData<String>
         get() = _exportedData
-
 
     fun fetchScreenList() {
         viewModelScope.launch {
@@ -72,17 +65,13 @@ class ScreenListViewModel @Inject constructor(
         onError: () -> Unit,
         context: Context
     ) {
-
         viewModelScope.launch {
             try {
                 val screenList = _screenLists.value?.firstOrNull { it.id == id }
-                itemRepository.getAllItemsOfList(id).collect { itemList ->
+                launch(Dispatchers.IO) {
+                    val listItem = itemRepository.getAllItemsOfListWithoutFlow(id)
                     screenList?.let { screenList ->
-                        val exportData = ExportedList(itemList, screenList)
-                        val gson = GsonBuilder()
-                            .excludeFieldsWithoutExposeAnnotation()
-                            .create()
-                        _exportedData.postValue(gson.toJson(exportData))
+                        val exportData = ExportedList(listItem, screenList)
                         createFile(exportData, onSuccess = { onSuccess(it) }, context)
                     }
                 }
