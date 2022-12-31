@@ -24,6 +24,8 @@
 
 - Hilt - Utilizado para injeção de dependências.
     
+- Gson - converter json
+    
 - RecyclerView - Foi utilizado esse framework devido a facilidade na exibição de grandes quantidades de dados, além de poupar recursos ao reexibir os as views quando faz a rolagem de tela para baixo.
 
 - Coroutines - Foi utilizado pois ajuda a gerenciar tarefas que demoram para ser executadas, podendo bloquear a main thread e fazer com que o app pare de responder.
