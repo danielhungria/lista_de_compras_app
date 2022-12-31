@@ -4,6 +4,8 @@
 
 <p>https://play.google.com/store/apps/details?id=br.com.cadealista.listinha</p>
 
+<h3> O "Cadê a Lista ?" surgiu com o objetivo de aprimorar a famosa "Listinha de compras", chega de papel amassado no bolso, tenha tudo que precisa na palma de sua mão. </h3>
+
 <h3>ScreenShot</h3>
 
 <img src="https://i.imgur.com/mzs4Hjz.png" height="400"> <img src="https://i.imgur.com/zXIbdzm.png" height="400"> <img src="https://i.imgur.com/43cryQp.png" height="400"> <img src="https://i.imgur.com/Csy6H1B.png" height="400">
