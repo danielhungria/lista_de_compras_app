@@ -1,4 +1,4 @@
-<h1>App Cade a Lista</h1>
+<h1>App Cadê a Lista</h1>
 
 <h3>Projeto publicado na Play Store</h3>
 
