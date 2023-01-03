@@ -60,4 +60,8 @@ class ItemViewModel @Inject constructor(
             itemRepository.delete(item)
         }
     }
+
+    fun checkList(): Boolean {
+        return _items.value?.isEmpty() == true
+    }
 }

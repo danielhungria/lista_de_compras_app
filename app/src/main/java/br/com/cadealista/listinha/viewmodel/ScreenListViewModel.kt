@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.cadealista.listinha.constants.Constants
+import br.com.cadealista.listinha.extensions.toast
 import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.models.Item
 import br.com.cadealista.listinha.models.ScreenList
@@ -72,7 +73,7 @@ class ScreenListViewModel @Inject constructor(
                     val listItem = itemRepository.getAllItemsOfListWithoutFlow(id)
                     screenList?.let { screenList ->
                         val exportData = ExportedList(listItem, screenList)
-                        createFile(exportData, onSuccess = { onSuccess(it) }, context)
+                        createFile(exportData, onSuccess = { onSuccess(it) }, onError = { onError()}, context)
                     }
                 }
             } catch (e: Exception) {
@@ -83,23 +84,10 @@ class ScreenListViewModel @Inject constructor(
 
     }
 
-//    fun insertExampleList() {
-//        viewModelScope.launch {
-//            //um problema fazer desse jeito, pois a pessoa pode ter uma lista com esse ID, Nao da pra atualizar infos tb
-//            val screenList1 = ScreenList(id = 1, name = "Mercado", description = "Compras do mês")
-//            val screenList2 =
-//                ScreenList(id = 2, name = "Aniversário", description = "Festa do Alex")
-//            val screenList3 =
-//                ScreenList(id = 3, name = "Churras", description = "Churrasco do domingão")
-//            screenListRepository.insert(screenList1)
-//            screenListRepository.insert(screenList2)
-//            screenListRepository.insert(screenList3)
-//        }
-//    }
-
     private fun createFile(
         exportedList: ExportedList,
         onSuccess: (exportedFile: File) -> Unit,
+        onError: () -> Unit,
         context: Context
     ) {
         val directory = File(
@@ -110,15 +98,20 @@ class ScreenListViewModel @Inject constructor(
         val exportFile =
             File(directory, exportedList.screenList.name + Constants.EXPORT_DATA_FILE_EXTENSION)
 
-        exportFile.createNewFile()
-        val writer = FileWriter(exportFile, true)
-        val gson = GsonBuilder()
-            .excludeFieldsWithoutExposeAnnotation()
-            .create()
-        writer.append(gson.toJson(exportedList))
-        writer.flush()
-        writer.close()
-        onSuccess(exportFile)
+        if (!exportFile.exists()){
+            exportFile.createNewFile()
+            val writer = FileWriter(exportFile, true)
+            val gson = GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create()
+            writer.append(gson.toJson(exportedList))
+            writer.flush()
+            writer.close()
+            onSuccess(exportFile)
+        }else{
+            onError()
+        }
+
     }
 
     fun importData(bytesArray: ByteArray, onSuccess: () -> Unit, onError: () -> Unit) {
@@ -141,5 +134,8 @@ class ScreenListViewModel @Inject constructor(
         }
     }
 
+    fun checkList(): Boolean {
+        return _screenLists.value?.isEmpty() == true
+    }
 }
 

@@ -43,6 +43,32 @@
         app:layout_constraintBottom_toTopOf="@+id/adView_screen_list"
         tools:listitem="@layout/cardview_list_screen"/>
 
+    <ImageView
+        android:id="@+id/icon_background_screenlist"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/card_view_list_screen"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="100dp"
+        android:alpha="0"
+        android:src="@drawable/icon_cade_a_lista_transparent"/>
+
+    <TextView
+        android:id="@+id/text_background_screenlist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/icon_background_screenlist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="20dp"
+        android:textStyle="bold|italic"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:alpha="0"
+        android:text="Crie sua primeira lista clicando no botão +"/>
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_list_screen"
         android:layout_width="wrap_content"

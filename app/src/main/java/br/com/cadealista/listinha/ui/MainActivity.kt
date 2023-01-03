@@ -55,6 +55,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            Intent.ACTION_VIEW -> {
+                val uri = intent.data
+                inputStream = uri?.let { contentResolver.openInputStream(it) }
+                inputStream?.readBytes()?.run {
+                    viewModelScreenList.importData(this, {}, {})
+                }
+            }
         }
     }
 
