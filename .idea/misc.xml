@@ -19,8 +19,8 @@
         <entry key="app/src/main/res/layout/fragment_add_edit_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_add_edit_screen_list.xml" value="0.22868194580078122" />
         <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.55" />
-        <entry key="app/src/main/res/layout/fragment_list.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_list_screen.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_list.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_list_screen.xml" value="0.18660888671875003" />
         <entry key="app/src/main/res/layout/gradient_splash_screen.xml" value="0.15250836120401337" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.23291564941406254" />
         <entry key="app/src/main/res/menu/menu_fragment_item.xml" value="0.24722222222222223" />
