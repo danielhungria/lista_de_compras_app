@@ -67,10 +67,10 @@ class ScreenListAdapter(
                     longPressDelete(screenList)
                     true
                 }
-//                R.id.shared_popup_menu -> {
-//                    sharePress(screenList.id)
-//                    true
-//                }
+                R.id.shared_popup_menu -> {
+                    sharePress(screenList.id)
+                    true
+                }
                 else -> false
             }
         }
