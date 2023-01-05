@@ -52,12 +52,10 @@ class ScreenListFragment : Fragment() {
     }, longPressDelete = { screenList ->
         viewModel.delete(screenList)
     },
-<<<<<<< HEAD
         sharePress = {
-//        viewModel.exportData(it)
-//            Log.i("Fragment", "pressionado compartilhar")
+        viewModel.exportData(it)
+            Log.i("Fragment", "pressionado compartilhar")
     }
-=======
         sharePress = { screenListId ->
             viewModel.exportData(
                 screenListId,
@@ -74,7 +72,6 @@ class ScreenListFragment : Fragment() {
 
             Log.i("Fragment", "pressionado compartilhar")
         }
->>>>>>> feature/shareData
     )
 
     private fun handleText(file: File) {

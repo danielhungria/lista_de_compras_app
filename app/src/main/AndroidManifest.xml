@@ -71,12 +71,10 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-1398509773631594~2752815569"/>
 
-<<<<<<< HEAD
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/icon_cade_a_lista" />
 
-=======
         <provider
             android:authorities="br.com.cadealista.listinha.fileprovider"
             android:name="androidx.core.content.FileProvider"
@@ -86,7 +84,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_path"/>
         </provider>
->>>>>>> feature/shareData
     </application>
 
 </manifest>
