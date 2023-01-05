@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import br.com.cadealista.listinha.extensions.formataParaMoedaBrasileira
+import com.google.gson.annotations.Expose
 import kotlinx.parcelize.Parcelize
 
 @Entity(tableName = "item_table")
@@ -11,9 +12,13 @@ import kotlinx.parcelize.Parcelize
 data class Item(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
+    @Expose
     val name: String = "",
+    @Expose
     val quantity: String ="",
+    @Expose
     val price: String = "",
+    @Expose
     val completed: Boolean = false,
     val idList: Int?
 ): Parcelable{

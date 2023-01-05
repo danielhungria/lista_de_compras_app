@@ -13,6 +13,9 @@ interface ItemDao {
     @Query("SELECT * FROM item_table WHERE idList = :idList")
     fun getAllItemsOfList(idList: Int): Flow<List<Item>>
 
+    @Query("SELECT * FROM item_table WHERE idList = :idList")
+    fun getAllItemsOfListWithoutFlow(idList: Int): List<Item>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
 

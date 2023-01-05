@@ -11,7 +11,7 @@ interface ScreenListDao {
     fun getAll(): Flow<List<ScreenList>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(screenList: ScreenList)
+    suspend fun insert(screenList: ScreenList): Long?
 
     @Update
     suspend fun update(screenList: ScreenList)

@@ -234,6 +234,13 @@ class ItemFragment : Fragment() {
         viewModel.items.observe(viewLifecycleOwner) {
             setupTotalMarketPrice()
             itemAdapter.updateList(it)
+            if (!viewModel.checkList()) {
+                binding.iconBackgroundItemScreen.alpha = 0F
+                binding.textBackgroundItemScreen.alpha = 0F
+            }else{
+                binding.iconBackgroundItemScreen.alpha = 0.3F
+                binding.textBackgroundItemScreen.alpha = 0.3F
+            }
         }
         screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()

@@ -24,8 +24,13 @@ android {
         applicationId "br.com.cadealista.listinha"
         minSdk 21
         targetSdk 32
+<<<<<<< HEAD
         versionCode 3
         versionName "1.2"
+=======
+        versionCode 4
+        versionName "1.3"
+>>>>>>> feature/shareData
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -8,9 +8,7 @@ class ScreenListRepository @Inject constructor(private val screenListDao: Screen
 
     fun getAll() = screenListDao.getAll()
 
-    suspend fun insert(screenList: ScreenList){
-        screenListDao.insert(screenList)
-    }
+    suspend fun insert(screenList: ScreenList) = screenListDao.insert(screenList)
 
     suspend fun update(screenList: ScreenList){
         screenListDao.update(screenList)
