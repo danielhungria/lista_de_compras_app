@@ -32,6 +32,18 @@ data class Item(
             null
         }
     }
+
+    val totalPriceCompleted: Double?
+        get() {
+            val itemQuantity = quantity.toDoubleOrNull() ?: 1.00
+            val priceItem = price.toDoubleOrNull()
+            val check = completed
+            return if (priceItem != null && check) {
+                priceItem * itemQuantity
+            }else{
+                null
+            }
+        }
     val priceFormat: Double?
         get() {
             return price.toDoubleOrNull()

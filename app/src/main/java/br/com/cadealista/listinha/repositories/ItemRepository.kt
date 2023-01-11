@@ -10,6 +10,8 @@ class ItemRepository @Inject constructor (private val itemDao: ItemDao) {
 
     fun getAllItemsOfList(idList: Int) = itemDao.getAllItemsOfList(idList)
 
+    fun getAllItemsCompletedOfList(idList: Int, completed: Boolean) = itemDao.getAllItemsCompletedOfList(idList,completed)
+
     suspend fun getAllItemsOfListWithoutFlow(idList: Int) = itemDao.getAllItemsOfListWithoutFlow(idList)
 
     suspend fun insert(item: Item){

@@ -19,7 +19,8 @@
     <string name="edit_text_hint_price">Preço por und.</string>
     <string name="edit_text_hint_description">Descrição</string>
     <string name="total_market">Valor Total</string>
-    <string name="delete_all_completed">Excluir itens completados</string>
+    <string name="delete_all_completed">Excluir itens marcados</string>
+    <string name="show_completed_item">Exibir apenas itens marcados</string>
     <string name="search_title_menu">Buscar</string>
     <string name="edit_title">Editar</string>
     <string name="delete_title">Excluir</string>
@@ -29,4 +30,5 @@
     <string name="toast_required">Preencha os campos obrigatórios</string>
     <string name="required_text">Campo Obrigatório</string>
     <string name="insert_name_helper">Insira um nome</string>
+    <string name="show_all_item">Exibir todos os itens</string>
 </resources>

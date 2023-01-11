@@ -30,9 +30,13 @@ class ItemAdapter(
             val filteredList = mutableListOf<Item>()
             if (query == null || query.toString().isEmpty()) {
                 filteredList.addAll(fullList)
+            }else if (query == "showCompleted"){
+                filteredList.addAll(filterListByCompleted())
             } else {
                 filteredList.addAll(filterListBy(query))
             }
+
+
 
             return FilterResults().apply {
                 values = filteredList
@@ -55,6 +59,10 @@ class ItemAdapter(
 
     private fun filterListBy(query: CharSequence) = fullList.filter {
         it.name.lowercase().trim().contains(query.toString().lowercase().trim())
+    }
+
+    private fun filterListByCompleted() = fullList.filter {
+        it.completed
     }
 
     private fun showMenu(

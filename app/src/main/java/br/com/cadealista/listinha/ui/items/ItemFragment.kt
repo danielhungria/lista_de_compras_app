@@ -4,6 +4,7 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -38,6 +39,9 @@ class ItemFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
 
+    //talvez colocar isso num sharedpreferences
+    private var showCompleted: Boolean = false
+
     private val screenList by lazy { arguments?.getParcelable<ScreenList>(SCREEN_LIST_TO_EDIT) }
 
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
@@ -56,6 +60,7 @@ class ItemFragment : Fragment() {
     private fun setupMenu() {
         binding.toolbar.title = screenList?.name
         binding.toolbar.setOnMenuItemClickListener {
+
             when(it.itemId){
                 R.id.action_search -> {
                     val searchView = it?.actionView as SearchView
@@ -66,32 +71,27 @@ class ItemFragment : Fragment() {
                     showDeleteAllItemsCompletedDialog()
                     true
                 }
+                R.id.action_show_completed_item -> {
+                    if (showCompleted){
+                        it.setIcon(R.drawable.ic_baseline_attach_money_24)
+                        it.setTitle("Exibir valor de todos os itens")
+                        setupTotalCompletedMarketPrice()
+//                        viewModel.fetchItemCompleted()
+                        itemAdapter.filter.filter("showCompleted")
+                    } else {
+                        it.setIcon(R.drawable.ic_baseline_price_check_24)
+                        it.setTitle("Exibir valor apenas dos itens marcados")
+                        setupTotalMarketPrice()
+                        itemAdapter.filter.filter("")
+                    }
+                    true
+                }
                 else -> false
             }
         }
         binding.toolbar.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-//        val menuHost: MenuHost = requireActivity()
-//        menuHost.addMenuProvider(object : MenuProvider {
-//            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-//                menuInflater.inflate(R.menu.menu_fragment_item, menu)
-//                val searchItem = menu.findItem(R.id.action_search)
-//                val searchView = searchItem?.actionView as SearchView
-//                setupSearchView(searchView)
-//            }
-//
-//            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-//                return when (menuItem.itemId) {
-//                    R.id.action_delete_all_completed_item -> {
-//                        showDeleteAllItemsCompletedDialog()
-//                        true
-//                    }
-//                    else -> false
-//                }
-//            }
-//
-//        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     private fun setupSearchView(searchView: SearchView) {
@@ -123,8 +123,23 @@ class ItemFragment : Fragment() {
         }
     }
 
+    private fun showCompletedItem() {
+//        itemAdapter.filter.filter(check)
+    }
     private fun setupTotalMarketPrice() {
-        binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
+        binding.texviewTitleTotalCardView.text = "Valor total"
+        viewModel.items.observe(viewLifecycleOwner) {
+            binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
+        }
+        showCompleted = true
+    }
+
+    private fun setupTotalCompletedMarketPrice() {
+        binding.texviewTitleTotalCardView.text = "Valor total dos itens marcados"
+        viewModel.items.observe(viewLifecycleOwner){
+            binding.textviewTotalValueCardView.text = viewModel.getTotalCompletedMarketPrice()
+        }
+        showCompleted = false
     }
 
     private fun showDeleteAllItemsCompletedDialog() {
@@ -230,9 +245,9 @@ class ItemFragment : Fragment() {
         setupFab()
         setupMenu()
         setupItemTouchHelper()
-
+        setupTotalMarketPrice()
         viewModel.items.observe(viewLifecycleOwner) {
-            setupTotalMarketPrice()
+            //bug aqui
             itemAdapter.updateList(it)
             if (!viewModel.checkList()) {
                 binding.iconBackgroundItemScreen.alpha = 0F

@@ -8,6 +8,7 @@ import br.com.cadealista.listinha.extensions.formataParaMoedaBrasileira
 import br.com.cadealista.listinha.models.Item
 import br.com.cadealista.listinha.repositories.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class ItemViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var listId: Int = 0
+    private var completed: Boolean = true
 
     private val _items = MutableLiveData<List<Item>>()
     val items: LiveData<List<Item>>
@@ -29,6 +31,14 @@ class ItemViewModel @Inject constructor(
     fun fetchItemList() {
         viewModelScope.launch {
             itemRepository.getAllItemsOfList(listId).collect {
+                _items.postValue(it)
+            }
+        }
+    }
+
+    fun fetchItemCompleted(){
+        viewModelScope.launch {
+            itemRepository.getAllItemsCompletedOfList(listId, completed).collect{
                 _items.postValue(it)
             }
         }
@@ -47,6 +57,10 @@ class ItemViewModel @Inject constructor(
 
     fun getTotalMarketPrice() = _items.value?.sumOf {
         it.totalPrice ?: 0.00
+    }.formataParaMoedaBrasileira()
+
+    fun getTotalCompletedMarketPrice() = _items.value?.sumOf {
+        it.totalPriceCompleted ?: 0.00
     }.formataParaMoedaBrasileira()
 
     fun deleteAllItemsCompleted() {
