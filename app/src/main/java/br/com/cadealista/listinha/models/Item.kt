@@ -22,6 +22,7 @@ data class Item(
     val completed: Boolean = false,
     val idList: Int?
 ): Parcelable{
+
     val totalPrice: Double?
     get() {
         val itemQuantity = quantity.toDoubleOrNull() ?: 1.00
@@ -32,22 +33,6 @@ data class Item(
             null
         }
     }
-
-    val totalPriceCompleted: Double?
-        get() {
-            val itemQuantity = quantity.toDoubleOrNull() ?: 1.00
-            val priceItem = price.toDoubleOrNull()
-            val check = completed
-            return if (priceItem != null && check) {
-                priceItem * itemQuantity
-            }else{
-                null
-            }
-        }
-    val priceFormat: Double?
-        get() {
-            return price.toDoubleOrNull()
-        }
 
     val textViewQuantity: String
     get(){
