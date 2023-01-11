@@ -18,6 +18,10 @@ class ItemRepository @Inject constructor (private val itemDao: ItemDao) {
         itemDao.insert(item)
     }
 
+    suspend fun insert(itemsList: List<Item>) {
+        itemDao.insert(itemsList)
+    }
+
     suspend fun update(item: Item){
         itemDao.update(item)
     }

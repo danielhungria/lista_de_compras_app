@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/shared_popup_menu"
         android:title="Compartilhar"
     />
+    <item
+        android:id="@+id/duplicate_popup_menu"
+        android:title="@string/duplicate"/>
     <item
         android:id="@+id/edit_popup_menu"
         android:title="@string/edit_title"

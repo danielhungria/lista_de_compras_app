@@ -31,4 +31,5 @@
     <string name="required_text">Campo Obrigatório</string>
     <string name="insert_name_helper">Insira um nome</string>
     <string name="show_all_item">Exibir todos os itens</string>
+    <string name="duplicate">Duplicar</string>
 </resources>

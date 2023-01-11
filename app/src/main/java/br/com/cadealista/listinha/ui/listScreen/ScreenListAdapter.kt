@@ -10,15 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import br.com.cadealista.listinha.R
 import br.com.cadealista.listinha.databinding.CardviewListScreenBinding
-import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.models.ScreenList
 
 
 class ScreenListAdapter(
-    val onClick: (ScreenList) -> Unit,
-    val longPress: (ScreenList) -> Unit,
-    val longPressDelete: (ScreenList) -> Unit,
-    val sharePress: (id: Int) -> Unit
+    val adapterCallbacks: ScreenListAdapterCallbacks
 ) : ListAdapter<ScreenList, ScreenListAdapter.ListViewHolder>(DiffCallback()) {
 
     private var fullList = mutableListOf<ScreenList>()
@@ -34,7 +30,7 @@ class ScreenListAdapter(
         fun bind(screenList: ScreenList) {
             binding.apply {
                 root.setOnClickListener {
-                    onClick(screenList)
+                    adapterCallbacks.onClick(screenList)
                 }
                 root.setOnLongClickListener {
                     showMenu(it.context, it, R.menu.menu_popup_menu, screenList)
@@ -60,15 +56,19 @@ class ScreenListAdapter(
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.edit_popup_menu -> {
-                    longPress(screenList)
+                    adapterCallbacks.longPress(screenList)
                     true
                 }
                 R.id.delete_popup_menu -> {
-                    longPressDelete(screenList)
+                    adapterCallbacks.longPressDelete(screenList)
                     true
                 }
                 R.id.shared_popup_menu -> {
-                    sharePress(screenList.id)
+                    adapterCallbacks.sharePress(screenList.id)
+                    true
+                }
+                R.id.duplicate_popup_menu -> {
+                    adapterCallbacks.duplicate(screenList)
                     true
                 }
                 else -> false

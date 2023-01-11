@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.cadealista.listinha.constants.Constants
-import br.com.cadealista.listinha.extensions.toast
 import br.com.cadealista.listinha.models.ExportedList
-import br.com.cadealista.listinha.models.Item
 import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.repositories.ItemRepository
 import br.com.cadealista.listinha.repositories.ScreenListRepository
@@ -17,9 +15,6 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.File
@@ -37,10 +32,6 @@ class ScreenListViewModel @Inject constructor(
     private val _screenLists = MutableLiveData<List<ScreenList>>()
     val screenLists: LiveData<List<ScreenList>>
         get() = _screenLists
-
-    private val _exportedData = MutableLiveData<String>()
-    val exportedData: LiveData<String>
-        get() = _exportedData
 
     fun fetchScreenList() {
         viewModelScope.launch {
@@ -73,7 +64,12 @@ class ScreenListViewModel @Inject constructor(
                     val listItem = itemRepository.getAllItemsOfListWithoutFlow(id)
                     screenList?.let { screenList ->
                         val exportData = ExportedList(listItem, screenList)
-                        createFile(exportData, onSuccess = { onSuccess(it) }, onError = { onError()}, context)
+                        createFile(
+                            exportData,
+                            onSuccess = { onSuccess(it) },
+                            onError = { onError() },
+                            context
+                        )
                     }
                 }
             } catch (e: Exception) {
@@ -98,7 +94,7 @@ class ScreenListViewModel @Inject constructor(
         val exportFile =
             File(directory, exportedList.screenList.name + Constants.EXPORT_DATA_FILE_EXTENSION)
 
-        if (!exportFile.exists()){
+        if (!exportFile.exists()) {
             exportFile.createNewFile()
             val writer = FileWriter(exportFile, true)
             val gson = GsonBuilder()
@@ -108,7 +104,7 @@ class ScreenListViewModel @Inject constructor(
             writer.flush()
             writer.close()
             onSuccess(exportFile)
-        }else{
+        } else {
             onError()
         }
 
@@ -136,6 +132,20 @@ class ScreenListViewModel @Inject constructor(
 
     fun checkList(): Boolean {
         return _screenLists.value?.isEmpty() == true
+    }
+
+    fun duplicateItem(screenList: ScreenList) {
+        viewModelScope.launch {
+            val itemsToDuplicate = itemRepository.getAllItemsOfListWithoutFlow(screenList.id)
+            screenListRepository.insert(screenList.copy(id = 0))?.let { id ->
+                val itemsToDuplicateWithUpdatedId =
+                    itemsToDuplicate.map {
+                        it.copy(id = 0, idList = id.toInt())
+                    }
+                itemRepository.insert(itemsToDuplicateWithUpdatedId)
+            }
+            fetchScreenList()
+        }
     }
 }
 
