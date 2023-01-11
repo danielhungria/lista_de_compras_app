@@ -17,10 +17,13 @@ interface ItemDao {
     fun getAllItemsCompletedOfList(idList: Int, completed: Boolean): Flow<List<Item>>
 
     @Query("SELECT * FROM item_table WHERE idList = :idList")
-    fun getAllItemsOfListWithoutFlow(idList: Int): List<Item>
+    suspend fun getAllItemsOfListWithoutFlow(idList: Int): List<Item>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(item: Item)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(itemsList: List<Item>)
 
     @Update
     suspend fun update(item: Item)

@@ -1,8 +1,6 @@
 package br.com.cadealista.listinha.ui.listScreen
 
 import android.Manifest
-import android.bluetooth.*
-import android.bluetooth.le.BluetoothLeScanner
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -25,6 +23,7 @@ import br.com.cadealista.listinha.R
 import br.com.cadealista.listinha.constants.Constants.SCREEN_LIST_TO_EDIT
 import br.com.cadealista.listinha.databinding.FragmentListScreenBinding
 import br.com.cadealista.listinha.extensions.navigateTo
+import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.viewmodel.ScreenListViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
@@ -33,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class ScreenListFragment : Fragment() {
+class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
 
     private val viewModel: ScreenListViewModel by viewModels()
 
@@ -41,33 +40,7 @@ class ScreenListFragment : Fragment() {
 
     private lateinit var mAdView: AdView
 
-    private val screenListAdapter = ScreenListAdapter(onClick = {
-        navigateTo(
-            R.id.action_screenListFragment_to_itemFragment,
-            bundleOf(SCREEN_LIST_TO_EDIT to it)
-        )
-    }, longPress = {
-        navigateTo(
-            R.id.action_screenListFragment_to_screenListAddEditFragment2,
-            bundleOf(SCREEN_LIST_TO_EDIT to it)
-        )
-    }, longPressDelete = { screenList ->
-        viewModel.delete(screenList)
-    }, sharePress = { screenListId ->
-            viewModel.exportData(
-                screenListId,
-                onSuccess = { file ->
-                    handleText(file)
-                }, onError = {
-                    activity?.runOnUiThread{
-                        Toast.makeText(context, "ERRO AO EXPORTAR DADO", Toast.LENGTH_LONG).show()
-                    }
-
-                }, context = requireContext()
-            )
-            Log.i("Fragment", "pressionado compartilhar")
-        }
-    )
+    private val screenListAdapter = ScreenListAdapter(this)
 
     private fun handleText(file: File) {
         val sendIntent = Intent().apply {
@@ -178,6 +151,42 @@ class ScreenListFragment : Fragment() {
         }
         viewModel.fetchScreenList()
 
+    }
+
+    override fun onClick(screenList: ScreenList) {
+        navigateTo(
+            R.id.action_screenListFragment_to_itemFragment,
+            bundleOf(SCREEN_LIST_TO_EDIT to screenList)
+        )
+    }
+
+    override fun longPress(screenList: ScreenList) {
+        navigateTo(
+            R.id.action_screenListFragment_to_screenListAddEditFragment2,
+            bundleOf(SCREEN_LIST_TO_EDIT to screenList)
+        )
+    }
+
+    override fun longPressDelete(screenList: ScreenList) {
+        viewModel.delete(screenList)
+    }
+
+    override fun sharePress(id: Int) {
+        viewModel.exportData(
+            id,
+            onSuccess = { file ->
+                handleText(file)
+            }, onError = {
+                activity?.runOnUiThread{
+                    Toast.makeText(context, "ERRO AO EXPORTAR DADO", Toast.LENGTH_LONG).show()
+                }
+            }, context = requireContext()
+        )
+        Log.i("Fragment", "pressionado compartilhar")
+    }
+
+    override fun duplicate(screenList: ScreenList) {
+        viewModel.duplicateItem(screenList)
     }
 
 }
