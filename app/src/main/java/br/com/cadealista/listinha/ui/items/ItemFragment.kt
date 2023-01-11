@@ -4,7 +4,6 @@ import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
@@ -39,9 +38,6 @@ class ItemFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
 
-    //talvez colocar isso num sharedpreferences
-    private var showCompleted: Boolean = false
-
     private val screenList by lazy { arguments?.getParcelable<ScreenList>(SCREEN_LIST_TO_EDIT) }
 
     private val itemAdapter = ItemAdapter(onComplete = { completed, item ->
@@ -72,17 +68,15 @@ class ItemFragment : Fragment() {
                     true
                 }
                 R.id.action_show_completed_item -> {
-                    if (showCompleted){
+                    viewModel.toggleShowCompletedItems()
+                    if (viewModel.showOnlyCompletedItems){
                         it.setIcon(R.drawable.ic_baseline_attach_money_24)
                         it.setTitle("Exibir valor de todos os itens")
                         setupTotalCompletedMarketPrice()
-//                        viewModel.fetchItemCompleted()
-                        itemAdapter.filter.filter("showCompleted")
                     } else {
                         it.setIcon(R.drawable.ic_baseline_price_check_24)
                         it.setTitle("Exibir valor apenas dos itens marcados")
                         setupTotalMarketPrice()
-                        itemAdapter.filter.filter("")
                     }
                     true
                 }
@@ -123,23 +117,12 @@ class ItemFragment : Fragment() {
         }
     }
 
-    private fun showCompletedItem() {
-//        itemAdapter.filter.filter(check)
-    }
     private fun setupTotalMarketPrice() {
         binding.texviewTitleTotalCardView.text = "Valor total"
-        viewModel.items.observe(viewLifecycleOwner) {
-            binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
-        }
-        showCompleted = true
     }
 
     private fun setupTotalCompletedMarketPrice() {
         binding.texviewTitleTotalCardView.text = "Valor total dos itens marcados"
-        viewModel.items.observe(viewLifecycleOwner){
-            binding.textviewTotalValueCardView.text = viewModel.getTotalCompletedMarketPrice()
-        }
-        showCompleted = false
     }
 
     private fun showDeleteAllItemsCompletedDialog() {
@@ -182,7 +165,7 @@ class ItemFragment : Fragment() {
                 actionState: Int,
                 isCurrentlyActive: Boolean
             ) {
-                setDeleteIcon(c, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                setDeleteIcon(c, viewHolder, dX, isCurrentlyActive)
                 super.onChildDraw(
                     c,
                     recyclerView,
@@ -201,8 +184,6 @@ class ItemFragment : Fragment() {
         c: Canvas,
         viewHolder: RecyclerView.ViewHolder,
         dX: Float,
-        dY: Float,
-        actionState: Int,
         currentlyActive: Boolean
     ) {
         val mClearPaint = Paint()
@@ -211,7 +192,7 @@ class ItemFragment : Fragment() {
         val backgroundColor = Color.parseColor("#b80f0a")
         val deleteDrawable = context?.let { ContextCompat.getDrawable(it, R.drawable.ic_baseline_delete_24) }
         val intrinsicWidth = deleteDrawable!!.intrinsicWidth
-        val intrinsicHeight = deleteDrawable!!.intrinsicHeight
+        val intrinsicHeight = deleteDrawable.intrinsicHeight
         val itemView = viewHolder.itemView
         val itemHeight = itemView.height
         val isCancelled = dX == 0f && !currentlyActive
@@ -249,6 +230,7 @@ class ItemFragment : Fragment() {
         viewModel.items.observe(viewLifecycleOwner) {
             //bug aqui
             itemAdapter.updateList(it)
+            binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
             if (!viewModel.checkList()) {
                 binding.iconBackgroundItemScreen.alpha = 0F
                 binding.textBackgroundItemScreen.alpha = 0F

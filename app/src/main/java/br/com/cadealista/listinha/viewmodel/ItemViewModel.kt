@@ -8,7 +8,6 @@ import br.com.cadealista.listinha.extensions.formataParaMoedaBrasileira
 import br.com.cadealista.listinha.models.Item
 import br.com.cadealista.listinha.repositories.ItemRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,28 +17,26 @@ class ItemViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var listId: Int = 0
-    private var completed: Boolean = true
+    var showOnlyCompletedItems: Boolean = false
+        private set
 
     private val _items = MutableLiveData<List<Item>>()
     val items: LiveData<List<Item>>
         get() = _items
 
-    fun setup(listId: Int){
+    fun setup(listId: Int) {
         this.listId = listId
+    }
+
+    fun toggleShowCompletedItems() {
+        showOnlyCompletedItems = !showOnlyCompletedItems
+        fetchItemList()
     }
 
     fun fetchItemList() {
         viewModelScope.launch {
             itemRepository.getAllItemsOfList(listId).collect {
-                _items.postValue(it)
-            }
-        }
-    }
-
-    fun fetchItemCompleted(){
-        viewModelScope.launch {
-            itemRepository.getAllItemsCompletedOfList(listId, completed).collect{
-                _items.postValue(it)
+                _items.postValue(filterList(it))
             }
         }
     }
@@ -59,10 +56,6 @@ class ItemViewModel @Inject constructor(
         it.totalPrice ?: 0.00
     }.formataParaMoedaBrasileira()
 
-    fun getTotalCompletedMarketPrice() = _items.value?.sumOf {
-        it.totalPriceCompleted ?: 0.00
-    }.formataParaMoedaBrasileira()
-
     fun deleteAllItemsCompleted() {
         viewModelScope.launch {
             itemRepository.deleteCompletedItem()
@@ -70,7 +63,7 @@ class ItemViewModel @Inject constructor(
     }
 
     fun delete(item: Item) {
-        viewModelScope.launch{
+        viewModelScope.launch {
             itemRepository.delete(item)
         }
     }
@@ -78,4 +71,10 @@ class ItemViewModel @Inject constructor(
     fun checkList(): Boolean {
         return _items.value?.isEmpty() == true
     }
+
+    private fun filterList(list: List<Item>) =
+        if (showOnlyCompletedItems) {
+            list.filter { it.completed }
+        } else list
+
 }
