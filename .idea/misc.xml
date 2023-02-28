@@ -19,27 +19,21 @@
         <entry key="app/src/main/res/layout/fragment_add_edit_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_add_edit_screen_list.xml" value="0.22868194580078122" />
         <entry key="app/src/main/res/layout/fragment_edit_item.xml" value="0.55" />
-<<<<<<< HEAD
-        <entry key="app/src/main/res/layout/fragment_list.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/fragment_list_screen.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/gradient_splash_screen.xml" value="0.15250836120401337" />
-        <entry key="app/src/main/res/layout/item_list.xml" value="0.23291564941406254" />
-        <entry key="app/src/main/res/layout/notification.xml" value="0.16925675675675675" />
-=======
         <entry key="app/src/main/res/layout/fragment_list.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_list_screen.xml" value="0.18660888671875003" />
         <entry key="app/src/main/res/layout/gradient_splash_screen.xml" value="0.15250836120401337" />
         <entry key="app/src/main/res/layout/item_list.xml" value="0.23291564941406254" />
->>>>>>> feature/shareData
+        <entry key="app/src/main/res/layout/notification.xml" value="0.16925675675675675" />
         <entry key="app/src/main/res/menu/menu_fragment_item.xml" value="0.24722222222222223" />
         <entry key="app/src/main/res/menu/menu_popup_item.xml" value="0.16755852842809366" />
         <entry key="app/src/main/res/menu/menu_popup_menu.xml" value="0.16026058631921825" />
         <entry key="app/src/main/res/menu/menu_screen_list.xml" value="0.16091205211726384" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1405" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.141" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -28,6 +28,7 @@ class ItemAdapter(
     private val customFilter = object : Filter() {
         override fun performFiltering(query: CharSequence?): FilterResults {
             val filteredList = mutableListOf<Item>()
+
             if (query == null || query.toString().isEmpty()) {
                 filteredList.addAll(fullList)
             }else if (query == "showCompleted"){

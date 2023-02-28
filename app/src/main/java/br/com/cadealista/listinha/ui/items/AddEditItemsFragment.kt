@@ -31,6 +31,7 @@ class AddEditItemsFragment : Fragment() {
     private val screenListId by lazy { arguments?.getInt(SCREEN_LIST_ID) }
 
     private val viewModel: AddEditItemsViewModel by viewModels()
+
     private fun setupListener() {
         with(binding) {
             fabSaveList.setOnClickListener {
