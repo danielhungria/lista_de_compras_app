@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/shared_popup_menu"
-        android:title="Compartilhar"
+        android:title="@string/share"
     />
     <item
         android:id="@+id/duplicate_popup_menu"

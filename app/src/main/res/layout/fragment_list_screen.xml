@@ -25,7 +25,7 @@
                 android:id="@+id/toolbar_list_screen"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:title="Suas Listas"
+                app:title="@string/your_list_title"
                 app:titleTextColor="@color/white"
                 app:titleCentered="true"
                 />
@@ -67,7 +67,7 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:alpha="0"
-        android:text="Crie sua primeira lista clicando no botão +"/>
+        android:text="@string/crie_sua_primeira_lista_clicando_no_bot_o"/>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_list_screen"

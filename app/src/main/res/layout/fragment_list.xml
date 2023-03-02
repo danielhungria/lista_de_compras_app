@@ -131,7 +131,7 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:alpha="0"
-        android:text="Crie seu primeiro item clicando no botão +"/>
+        android:text="@string/crie_seu_primeiro_item_clicando_no_bot_o"/>
 
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton

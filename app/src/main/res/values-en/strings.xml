@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Cadê a Lista?</string>
+    <string name="delete_all_items_completed_dialog_title">Confirm Exclude</string>
+    <string name="delete_all_items_completed_dialog_body_message">Do you really want to delete all completed items?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="textview_title_edit_list">Edit your List</string>
+    <string name="textview_title_edit_item">Edit your Item</string>
+    <string name="toolbar_title_edit">Edit your Item</string>
+    <string name="toolbar_title_edit_list">Edit your List</string>
+    <string name="textview_description_edit">Choose name and description</string>
+    <string name="textview_description_edit_item">Choose name, quantity and price</string>
+    <string name="add_item">Item Information</string>
+    <string name="add_list">Choose List name and description</string>
+    <string name="toolbar_title_add">Add</string>
+    <string name="edit_text_hint_name">*Item Name</string>
+    <string name="edit_text_hint_name_list">*List name</string>
+    <string name="edit_text_hint_quantity">Item Quantity</string>
+    <string name="edit_text_hint_price">Price per unit</string>
+    <string name="edit_text_hint_description">Description</string>
+    <string name="total_market">Total Value</string>
+    <string name="delete_all_completed">delete checked items</string>
+    <string name="show_completed_item">Show only checked items</string>
+    <string name="search_title_menu">Search</string>
+    <string name="edit_title">Edit</string>
+    <string name="delete_title">Delete</string>
+    <string name="value_real">$ 0,00</string>
+    <!--    <string name="ad_id_test">ca-app-pub-3940256099942544/6300978111</string>-->
+    <string name="ad_id_test">ca-app-pub-1398509773631594/6113438086</string>
+    <string name="toast_required">Complete the required fields</string>
+    <string name="required_text">Required field</string>
+    <string name="insert_name_helper">Enter a name</string>
+    <string name="show_all_item">View all items</string>
+    <string name="duplicate">Duplicate</string>
+    <string name="crie_seu_primeiro_item_clicando_no_bot_o">Create your first item by clicking the + button</string>
+    <string name="crie_sua_primeira_lista_clicando_no_bot_o">Create your first list by clicking the + button</string>
+    <string name="show_value_all_items">Display value of all items</string>
+    <string name="show_value_check_items">Display value of checked items only</string>
+    <string name="total_value">Total value</string>
+    <string name="total_value_checked_items">Total value of selected items</string>
+    <string name="error_when_exported">ERROR EXPORTING DATA</string>
+    <string name="your_list_title">Your Lists</string>
+    <string name="share">Share</string>
+</resources>

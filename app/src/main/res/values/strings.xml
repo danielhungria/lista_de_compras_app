@@ -32,4 +32,13 @@
     <string name="insert_name_helper">Insira um nome</string>
     <string name="show_all_item">Exibir todos os itens</string>
     <string name="duplicate">Duplicar</string>
+    <string name="crie_seu_primeiro_item_clicando_no_bot_o">Crie seu primeiro item clicando no botão +</string>
+    <string name="crie_sua_primeira_lista_clicando_no_bot_o">Crie sua primeira lista clicando no botão +</string>
+    <string name="show_value_all_items">Exibir valor de todos os itens</string>
+    <string name="show_value_check_items">Exibir valor apenas dos itens marcados</string>
+    <string name="total_value">Valor total</string>
+    <string name="total_value_checked_items">Valor total dos itens marcados</string>
+    <string name="error_when_exported">ERRO AO EXPORTAR DADO</string>
+    <string name="your_list_title">Suas Listas</string>
+    <string name="share">Compartilhar</string>
 </resources>

@@ -27,7 +27,10 @@ import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.viewmodel.ScreenListViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -40,6 +43,8 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
 
     private lateinit var mAdView: AdView
 
+    private var mInterstitialAd: InterstitialAd? = null
+
     private val screenListAdapter = ScreenListAdapter(this)
 
     private fun handleText(file: File) {
@@ -49,12 +54,9 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             putExtra(Intent.EXTRA_STREAM, context?.let {
                 FileProvider.getUriForFile(
-                    it,
-                    BuildConfig.APPLICATION_ID + ".fileprovider",
-                    file
+                    it, BuildConfig.APPLICATION_ID + ".fileprovider", file
                 )
-            }
-            )
+            })
         }
         startActivity(Intent.createChooser(sendIntent, "Sharing"))
     }
@@ -65,14 +67,39 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
         mAdView.loadAd(adRequest)
     }
 
+    private fun configureInterstitialAd() {
+        val adRequest = AdRequest.Builder().build()
+        setupAdInterstitial(adRequest)
+    }
+
+    private fun setupAdInterstitial(adRequest: AdRequest) {
+        InterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-1398509773631594/1997641593",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    adError.toString().let { Log.d("Fragment", it) }
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d("Fragment", "Ad interstitial was loaded.")
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.show(requireActivity())
+                }
+            }
+        )
+    }
+
     private fun setPermissions() {
         val permissions = arrayOf(
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE
         )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
-                context?.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+            if (context?.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || context?.checkSelfPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
             ) {
                 activity?.let { ActivityCompat.requestPermissions(it, permissions, 100) }
             }
@@ -88,6 +115,7 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
 
     private fun setupFab() {
         binding.fabAddListScreen.setOnClickListener {
+            configureInterstitialAd()
             navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment2)
         }
     }
@@ -122,9 +150,7 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentListScreenBinding.inflate(inflater, container, false)
         return binding.root
@@ -144,13 +170,12 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
             if (!viewModel.checkList()) {
                 binding.iconBackgroundScreenlist.alpha = 0F
                 binding.textBackgroundScreenlist.alpha = 0F
-            }else{
+            } else {
                 binding.iconBackgroundScreenlist.alpha = 0.3F
                 binding.textBackgroundScreenlist.alpha = 0.3F
             }
         }
         viewModel.fetchScreenList()
-
     }
 
     override fun onClick(screenList: ScreenList) {
@@ -172,15 +197,14 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
     }
 
     override fun sharePress(id: Int) {
-        viewModel.exportData(
-            id,
-            onSuccess = { file ->
-                handleText(file)
-            }, onError = {
-                activity?.runOnUiThread{
-                    Toast.makeText(context, "ERRO AO EXPORTAR DADO", Toast.LENGTH_LONG).show()
-                }
-            }, context = requireContext()
+        configureInterstitialAd()
+        viewModel.exportData(id, onSuccess = { file ->
+            handleText(file)
+        }, onError = {
+            activity?.runOnUiThread {
+                Toast.makeText(context, getString(R.string.error_when_exported), Toast.LENGTH_LONG).show()
+            }
+        }, context = requireContext()
         )
         Log.i("Fragment", "pressionado compartilhar")
     }

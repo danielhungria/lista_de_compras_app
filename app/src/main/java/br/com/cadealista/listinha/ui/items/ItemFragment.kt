@@ -3,6 +3,7 @@ package br.com.cadealista.listinha.ui.items
 import android.graphics.*
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,13 +27,18 @@ import br.com.cadealista.listinha.models.ScreenList
 import br.com.cadealista.listinha.viewmodel.ItemViewModel
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ItemFragment : Fragment() {
 
     private lateinit var mAdView: AdView
+
+    private var mInterstitialAd: InterstitialAd? = null
 
     private val viewModel: ItemViewModel by viewModels()
 
@@ -48,6 +54,8 @@ class ItemFragment : Fragment() {
             ITEM_TO_EDIT to it,
             SCREEN_LIST_ID to screenList?.id
         ))
+        val adRequest = AdRequest.Builder().build()
+        setupAdInterstitial(adRequest)
     }, onClickDelete = { item ->
         viewModel.delete(item)
     }
@@ -71,11 +79,11 @@ class ItemFragment : Fragment() {
                     viewModel.toggleShowCompletedItems()
                     if (viewModel.showOnlyCompletedItems){
                         it.setIcon(R.drawable.ic_baseline_attach_money_24)
-                        it.setTitle("Exibir valor de todos os itens")
+                        it.setTitle(getString(R.string.show_value_all_items))
                         setupTotalCompletedMarketPrice()
                     } else {
                         it.setIcon(R.drawable.ic_baseline_price_check_24)
-                        it.setTitle("Exibir valor apenas dos itens marcados")
+                        it.setTitle(getString(R.string.show_value_check_items))
                         setupTotalMarketPrice()
                     }
                     true
@@ -118,11 +126,11 @@ class ItemFragment : Fragment() {
     }
 
     private fun setupTotalMarketPrice() {
-        binding.texviewTitleTotalCardView.text = "Valor total"
+        binding.texviewTitleTotalCardView.text = getString(R.string.total_value)
     }
 
     private fun setupTotalCompletedMarketPrice() {
-        binding.texviewTitleTotalCardView.text = "Valor total dos itens marcados"
+        binding.texviewTitleTotalCardView.text = getString(R.string.total_value_checked_items)
     }
 
     private fun showDeleteAllItemsCompletedDialog() {
@@ -220,6 +228,26 @@ class ItemFragment : Fragment() {
         deleteDrawable.draw(c)
     }
 
+    private fun setupAdInterstitial(adRequest: AdRequest) {
+        InterstitialAd.load(
+            requireContext(),
+            "ca-app-pub-1398509773631594/1997641593",
+            adRequest,
+            object : InterstitialAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    adError.toString().let { Log.d("Fragment", it) }
+                    mInterstitialAd = null
+                }
+
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    Log.d("Fragment", "Ad was loaded.")
+                    mInterstitialAd = interstitialAd
+                    mInterstitialAd?.show(requireActivity())
+                }
+            }
+        )
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
@@ -228,7 +256,6 @@ class ItemFragment : Fragment() {
         setupItemTouchHelper()
         setupTotalMarketPrice()
         viewModel.items.observe(viewLifecycleOwner) {
-            //bug aqui
             itemAdapter.updateList(it)
             binding.textviewTotalValueCardView.text = viewModel.getTotalMarketPrice()
             if (!viewModel.checkList()) {
@@ -246,6 +273,7 @@ class ItemFragment : Fragment() {
         mAdView = binding.adViewItemList
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
+        setupAdInterstitial(adRequest)
 
     }
 
