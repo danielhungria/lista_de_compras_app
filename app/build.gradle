@@ -11,7 +11,7 @@ plugins {
 
 android {
     signingConfigs {
-        debug {
+        release {
             storeFile file('/Users/danielhungria/Desktop/Program/Daniel/keystore')
             storePassword 'Akira01@'
             keyAlias 'keystore'
@@ -24,8 +24,8 @@ android {
         applicationId "br.com.cadealista.listinha"
         minSdk 21
         targetSdk 33
-        versionCode 6
-        versionName "1.5"
+        versionCode 10
+        versionName "1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +36,7 @@ android {
 
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             debuggable false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
