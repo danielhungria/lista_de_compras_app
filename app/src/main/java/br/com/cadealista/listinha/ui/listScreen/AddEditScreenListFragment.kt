@@ -100,7 +100,7 @@ class AddEditScreenListFragment : Fragment(){
         setupListener()
         setupMenu()
         context?.let { MobileAds.initialize(it) }
-        mAdView = binding.adViewScreenListAddEdit
+        mAdView = binding.adViewAddScreen
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
     }

@@ -26,7 +26,8 @@
     <string name="delete_title">Excluir</string>
     <string name="value_real">R$ 0,00</string>
 <!--    <string name="ad_id_test">ca-app-pub-3940256099942544/6300978111</string>-->
-    <string name="ad_id_test">ca-app-pub-1398509773631594/6113438086</string>
+    <!--    <string name="ad_id">ca-app-pub-1398509773631594/6113438086</string>-->
+    <string name="ad_id_test">ca-app-pub-3940256099942544/6300978111</string>
     <string name="toast_required">Preencha os campos obrigatórios</string>
     <string name="required_text">Campo Obrigatório</string>
     <string name="insert_name_helper">Insira um nome</string>

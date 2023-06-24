@@ -269,11 +269,12 @@ class ItemFragment : Fragment() {
         screenList?.id?.let { viewModel.setup(it) }
         viewModel.fetchItemList()
 
-        context?.let { MobileAds.initialize(it) }
-        mAdView = binding.adViewItemList
+        mAdView = binding.adViewItems
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
-        setupAdInterstitial(adRequest)
+
+        context?.let { MobileAds.initialize(it) }
+//        setupAdInterstitial(adRequest)
 
     }
 

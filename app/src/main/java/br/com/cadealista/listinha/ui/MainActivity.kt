@@ -19,6 +19,8 @@ import br.com.cadealista.listinha.databinding.ActivityMainBinding
 import br.com.cadealista.listinha.models.ExportedList
 import br.com.cadealista.listinha.util.Utils
 import br.com.cadealista.listinha.viewmodel.ScreenListViewModel
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
@@ -33,6 +35,8 @@ class MainActivity : AppCompatActivity() {
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
+    private lateinit var mAdView: AdView
 
     private val viewModelScreenList: ScreenListViewModel by viewModels()
 
@@ -63,6 +67,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+        mAdView = binding.adViewMain
+        val adRequest = AdRequest.Builder().build()
+        mAdView.loadAd(adRequest)
     }
 
     override fun onStop() {

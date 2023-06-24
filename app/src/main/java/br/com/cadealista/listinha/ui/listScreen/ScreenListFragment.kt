@@ -62,14 +62,14 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
     }
 
     private fun configureAd() {
-        mAdView = binding.adViewScreenList
+        mAdView = binding.adViewScreen
         val adRequest = AdRequest.Builder().build()
         mAdView.loadAd(adRequest)
     }
 
     private fun configureInterstitialAd() {
         val adRequest = AdRequest.Builder().build()
-        setupAdInterstitial(adRequest)
+//        setupAdInterstitial(adRequest)
     }
 
     private fun setupAdInterstitial(adRequest: AdRequest) {
@@ -115,7 +115,7 @@ class ScreenListFragment : Fragment(), ScreenListAdapterCallbacks {
 
     private fun setupFab() {
         binding.fabAddListScreen.setOnClickListener {
-            configureInterstitialAd()
+//            configureInterstitialAd()
             navigateTo(R.id.action_screenListFragment_to_screenListAddEditFragment2)
         }
     }
