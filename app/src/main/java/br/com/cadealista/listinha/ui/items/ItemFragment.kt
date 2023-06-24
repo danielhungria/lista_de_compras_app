@@ -55,7 +55,7 @@ class ItemFragment : Fragment() {
             SCREEN_LIST_ID to screenList?.id
         ))
         val adRequest = AdRequest.Builder().build()
-        setupAdInterstitial(adRequest)
+//        setupAdInterstitial(adRequest)
     }, onClickDelete = { item ->
         viewModel.delete(item)
     }
